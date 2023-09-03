@@ -1,0 +1,8 @@
+.Card > button{
+    height: fit-content;
+    width: fit-content;
+    background-color: transparent;
+    float: right;
+    border: none;
+    cursor: pointer;
+}

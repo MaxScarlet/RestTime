@@ -21,7 +21,7 @@ function execute(sql: string, values?: any[]): Promise<any> {
         reject(err);
         return;
       }
-
+      console.log(result);
       // Query succeeded:
       resolve(result);
     });

@@ -25,16 +25,27 @@ router.get(
   "/user/:userId",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-
       const userId = +request.params.userId;
       const user = await userService.getUsersById(userId);
       response.json(user);
-
     } catch (err: any) {
       next(err);
     }
   }
 );
 
+router.post(
+  "/user/login",
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const user = await userService.login(request.body);
+      response.json(user);
+      //Cast to user model
+      //const usersList = new userModel[]
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
 
 export default router;
