@@ -13,7 +13,7 @@ const connection = mysql.createPool({
 function execute(sql: string, values?: any[]): Promise<any> {
   // Promisify:
   return new Promise<any>((resolve, reject) => {
-    console.log(values);
+    console.log("values" , values);
     // Execute query in database:
     connection.query(sql, values, (err, result) => {
       // If query failed:
@@ -21,7 +21,7 @@ function execute(sql: string, values?: any[]): Promise<any> {
         reject(err);
         return;
       }
-      console.log(result);
+      console.log( "result: ",result);
       // Query succeeded:
       resolve(result);
     });

@@ -2,6 +2,7 @@ import dal from "../2-utils/dal";
 import { OkPacket } from "mysql";
 import UserModel from "../3-models/user-model";
 import CredentialsModel from "../3-models/credential-model";
+import jwt from "jsonwebtoken";
 
 async function getAllUsers() {
   const sql = "SELECT * FROM users";

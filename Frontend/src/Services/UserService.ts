@@ -15,11 +15,24 @@ class UserService {
       appConfig.userUrl + "login",
       credentials
     );
-    const user = response.data;
-    return user;
+    const token = response.data.toString();
+    localStorage.setItem("jwt_token", token);
+    return token;
   }
 }
-
+export const isAuth = (): boolean => {
+  const token = localStorage.getItem("jwt_token");
+  if (token) {
+    // const decodedToken: { exp: number } = jwtDecode(token);
+    // const currentTime = Date.now() / 1000;
+    // return decodedToken.exp > currentTime;
+    return true;
+  }
+  return false;
+};
 const userService = new UserService();
 
 export default userService;
+// function jwtDecode(token: string): { exp: number } {
+//   throw new Error("Function not implemented.");
+// }

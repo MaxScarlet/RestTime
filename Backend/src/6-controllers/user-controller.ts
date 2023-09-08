@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from "express";
 import userService from "../5-services/user-service";
 import StatusCode from "../3-models/status-code";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
@@ -34,13 +35,28 @@ router.get(
   }
 );
 
+const secretKey = "I-am-the-best";
+
 router.post(
   "/user/login",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const user = await userService.login(request.body);
-      response.json(user);
-      //Cast to user model
+      const { email, password } = request.body;
+      const resp = await userService.login(request.body);
+      const user = resp[0];
+      console.log("Returned user: ", user);
+
+      if (user) {
+        const token = jwt.sign(
+          { userId: user.userId, isAdmin: user.isAdmin },
+          secretKey,
+          { expiresIn: "1h" }
+        );
+        response.json(token);
+      } else {
+        response.sendStatus(StatusCode.Unauthorized);
+      }
+      //Cast to UserModel
       //const usersList = new userModel[]
     } catch (err: any) {
       next(err);

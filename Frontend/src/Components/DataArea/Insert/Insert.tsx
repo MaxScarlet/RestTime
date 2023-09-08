@@ -5,17 +5,21 @@ import UserModel from "../../../Models/UserModel";
 import notifyService from "../../../Services/NotifyService";
 import userService from "../../../Services/UserService";
 import CredentialsModel from "../../../Models/CredentialModel";
+import { useState } from "react";
+import React from "react";
 
 function Insert(): JSX.Element {
-  const { register, handleSubmit, formState } = useForm<UserModel>();
+  //const { register, handleSubmit, formState } = useForm<UserModel>();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
-  async function sendUser(credentials: CredentialsModel) {
+  async function sendUser() {
+    //credentials: CredentialsModel
     try {
-      const res = await userService.login(credentials);
-      //notifyService.success("Logged In Successfully");
-      navigate("/home");
+      const token = await userService.login({email, password});
+      navigate("/list");
     } catch (error) {
       notifyService.error(error);
     }
@@ -23,19 +27,26 @@ function Insert(): JSX.Element {
 
   return (
     <div className="container">
-      <form onSubmit={handleSubmit(sendUser)}>
-        <label>Username:</label>
-        <input type="text" id="username" required {...register("email")} />
+      <form>
+        <label>Email:</label>
+        <input
+          type="text"
+          id="Email"
+          required
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
         <label>Password:</label>
         <input
           type="password"
           id="password"
           required
-          {...register("password")}
+          onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button>Login</button>
+        <button type="button" onClick={sendUser}>
+          Login
+        </button>
       </form>
     </div>
   );
