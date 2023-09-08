@@ -12,7 +12,7 @@ function Layout(): JSX.Element {
         <Menu to={""} children={undefined} />
         <hr />
 
-        <Header />
+        {/* <Header /> */}
 
         <Routing />
       </AuthProvider>

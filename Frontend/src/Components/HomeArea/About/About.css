@@ -1,3 +1,24 @@
-.About {
-	
+/* Styles for the About Us section */
+#about-us {
+  background-color: #f8f8f8;
+  padding: 50px;
+  text-align: center;
+}
+
+#about-us h1 {
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+#about-us h2 {
+  font-size: 24px;
+  color: #555;
+  margin-top: 30px;
+}
+
+#about-us p {
+  font-size: 18px;
+  color: #777;
+  line-height: 1.6;
 }
