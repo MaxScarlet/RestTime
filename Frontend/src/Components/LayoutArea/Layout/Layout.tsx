@@ -3,22 +3,21 @@ import Header from "../Header/Header";
 import Menu from "../Menu/Menu";
 import Routing from "../Routing/Routing";
 import "./Layout.css";
+import { AuthProvider } from "../AuthProvider";
 
 function Layout(): JSX.Element {
-    return (
-        <div className="Layout">
-            
-            <Menu isAuthenticated={false} handleLogin={function (): void {
-                throw new Error("Function not implemented.");
-            } } />
-            <hr />
+  return (
+    <div className="Layout">
+      <AuthProvider>
+        <Menu to={""} children={undefined} />
+        <hr />
 
-			<Header />
+        <Header />
 
-            <Routing />
-            
-        </div>
-    );
+        <Routing />
+      </AuthProvider>
+    </div>
+  );
 }
 
 export default Layout;

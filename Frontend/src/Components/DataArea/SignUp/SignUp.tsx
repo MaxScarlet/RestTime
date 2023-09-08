@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./Insert.css";
+import "../Login/Login.css";
 import { useForm } from "react-hook-form";
 import UserModel from "../../../Models/UserModel";
 import notifyService from "../../../Services/NotifyService";
@@ -7,18 +7,21 @@ import userService from "../../../Services/UserService";
 import CredentialsModel from "../../../Models/CredentialModel";
 import { useState } from "react";
 import React from "react";
+import { useAuth } from "../../LayoutArea/AuthProvider";
 
-function Insert(): JSX.Element {
+function SignUp(): JSX.Element {
   //const { register, handleSubmit, formState } = useForm<UserModel>();
+  const { login } = useAuth();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
 
-  async function sendUser() {
+  async function handleLogin() {
     //credentials: CredentialsModel
     try {
-      const token = await userService.login({email, password});
+      const token = await login(email, password);
       navigate("/list");
     } catch (error) {
       notifyService.error(error);
@@ -44,11 +47,11 @@ function Insert(): JSX.Element {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button type="button" onClick={sendUser}>
+        <button type="button" onClick={handleLogin}>
           Login
         </button>
       </form>
     </div>
   );
 }
-export default Insert;
+export default SignUp;

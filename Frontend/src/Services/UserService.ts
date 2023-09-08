@@ -1,13 +1,14 @@
 import axios from "axios";
-import appConfig from "../Utils/AppConfig";
-import UserModel from "../Models/UserModel";
+import { createContext } from "react";
 import CredentialsModel from "../Models/CredentialModel";
+import UserModel from "../Models/UserModel";
+import appConfig from "../Utils/AppConfig";
 
 class UserService {
   public async getAllUsers() {
     const response = await axios.get<UserModel[]>(appConfig.userUrl);
-    const audience = response.data;
-    return audience;
+    const user = response.data;
+    return user;
   }
 
   public async login(credentials: CredentialsModel) {
@@ -18,6 +19,11 @@ class UserService {
     const token = response.data.toString();
     localStorage.setItem("jwt_token", token);
     return token;
+  }
+  public async getUserInfo(userId: number) {
+    const response = await axios.get<UserModel[]>(appConfig.userUrl + userId);
+    const user = response.data[0];
+    return user;
   }
 }
 export const isAuth = (): boolean => {

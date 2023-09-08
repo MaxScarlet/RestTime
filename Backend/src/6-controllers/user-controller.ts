@@ -35,7 +35,7 @@ router.get(
   }
 );
 
-const secretKey = "I-am-the-best";
+const secretKey = "I-am-Groot";
 
 router.post(
   "/user/login",

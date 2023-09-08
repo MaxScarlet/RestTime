@@ -6,7 +6,7 @@ class UserModel {
   public password: string;
   public isAdmin: boolean;
 
-  //   public static audienceIdValidation = {
+  //   public static userIdValidation = {
   //     required: { value: true, message: "No id has been chosen" },
   //   };
   //   public static nameValidation = {
