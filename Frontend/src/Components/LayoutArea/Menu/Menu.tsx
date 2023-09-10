@@ -1,8 +1,7 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import "./Menu.css";
-import { isAuth } from "../../../Services/UserService";
 import React, { ReactNode } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthProvider";
+import "./Menu.css";
 
 interface MenuProps {
   to?: string;
@@ -45,36 +44,48 @@ function Menu(menuProps: MenuProps): JSX.Element {
 
   return (
     <div className="menu">
-      <ul>
-        <li>
-          <MenuLink to="/home">Home</MenuLink>
-        </li>
-        <li> {token ? <MenuLink to="/list">List</MenuLink> : null}</li>
-        <li>
-          <MenuLink to="/about">About</MenuLink>
-        </li>
-        <li>
+      <div className="menuItems">
+        <MenuLink className="menuItem" to="/home">
+          Home
+        </MenuLink>
+
+        {token ? (
+          <MenuLink className="menuItem" to="/list">
+            Vacations
+          </MenuLink>
+        ) : null}
+
+        <MenuLink className="menuItem" to="/about">
+          About
+        </MenuLink>
+
+        <div className="menuUser">
           {token ? (
+            //Wrap in JSX fragment
             <>
-              <li>
-                <MenuLink to="/profile">Profile</MenuLink>
-              </li>
-              <li>
-                <MenuLink onClick={logout}>Logout</MenuLink>
-              </li>
+              <MenuLink className="menuUserItem" to="/favorites">
+                My Favorites
+              </MenuLink>
+              <MenuLink className="menuUserItem" to="/profile">
+                Profile
+              </MenuLink>
+              <MenuLink className="menuUserItem" onClick={logout}>
+                Logout
+              </MenuLink>
             </>
           ) : (
+            //Wrap in JSX fragment
             <>
-              <li>
-                <MenuLink to="/signup">Sign Up</MenuLink>
-              </li>
-              <li>
-                <MenuLink to="/login">Login</MenuLink>
-              </li>
+              <MenuLink className="menuUserItem" to="/signup">
+                Sign Up
+              </MenuLink>
+              <MenuLink className="menuUserItem" to="/login">
+                Login
+              </MenuLink>
             </>
           )}
-        </li>
-      </ul>
+        </div>
+      </div>
       {/* {menuProps.isAuthenticated ? <MenuLink to="/list">List | </MenuLink> : null} */}
     </div>
   );

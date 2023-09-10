@@ -1,10 +1,13 @@
-class UserModel {
-  public userId?: number;
-  public firstName: string;
-  public lastName: string;
-  public email: string;
-  public password: string;
-  public isAdmin?: boolean;
+class VacationModel {
+  public vacationId: number;
+  public place: string;
+  public desc: string;
+  public startDate: Date;
+  public endDate: Date;
+  public price: number;
+
+  //Check URI module/package
+  public picturePath: string;
 
   // public fromJWT(payload: any) {
   //   this.userId = payload.id;
@@ -34,4 +37,4 @@ class UserModel {
   //     max: { value: 100, message: "Discount cannot be more than 100" },
   //   };
 }
-export default UserModel;
+export default VacationModel;

@@ -1,42 +1,48 @@
-import { useJwt } from "react-jwt";
 import React, { useEffect, useState } from "react";
-
 import { useAuth } from "../../LayoutArea/AuthProvider";
 import userService from "../../../Services/UserService";
 import UserModel from "../../../Models/UserModel";
+import jwt_decode from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const Profile: React.FC = () => {
-  const [loading, setLoading] = useState(true);
-  let user: UserModel;
+  const [loading, setLoading] = useState(true); //Boolean flag to determine loading status
+  const [user, setUser] = useState<UserModel>();
+
+  //UnAuth access handler
   const token = useAuth().token;
-//   const { decodedToken }: any = useJwt(token);
-  const decodedToken = {
-    userId: 1,
-    isAdmin: 1,
-    iat: 1694190018,
-    exp: 1694193618,
-  };
+  const navigate = useNavigate();
+  if (!token) navigate("/");
+
   useEffect(() => {
-    userService
-      .getUserInfo(decodedToken.userId)
-      .then((userInfo) => {
-        user = userInfo;
-      })
-      .catch((error) => {
-        console.error("Error fetching user profile:", error);
-      });
-    //const user = await userService.getUserInfo();
+    if (token) {
+      const decodedToken: any = jwt_decode(token);
+      userService
+        .getItem(decodedToken.userId)
+        .then((userInfo) => {
+          setUser(userInfo);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error fetching user profile:", error);
+          //Add new section for error messages
+          setLoading(false);
+        });
+    }
   }, []);
 
+  //   return !token ? null : (
   return (
     <div>
       <h2>User Profile</h2>
-      {!user ? (
+      {loading ? (
+        //Add loading spinner
         <p>Loading...</p>
       ) : (
         <div>
-          <p>Name: {user.firstName}</p>
+          <p>Name: {user.firstName + " " + user.lastName}</p>
           <p>Email: {user.email}</p>
+          <p>Admin: {user.isAdmin ? "Yes" : "No"}</p> {/* Add profile! */}
         </div>
       )}
     </div>

@@ -13,8 +13,8 @@ function Login(): JSX.Element {
   //const { register, handleSubmit, formState } = useForm<UserModel>();
   const { login } = useAuth();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("maxim@gmail.com");
+  const [password, setPassword] = useState("1234567");
 
   const navigate = useNavigate();
 
@@ -22,7 +22,7 @@ function Login(): JSX.Element {
     //credentials: CredentialsModel
     try {
       const token = await login(email, password);
-      navigate("/list");
+      navigate("/profile");
     } catch (error) {
       notifyService.error(error);
     }

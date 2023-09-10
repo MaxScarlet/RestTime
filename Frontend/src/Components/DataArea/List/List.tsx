@@ -1,21 +1,27 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import vacationModel from "../../../Models/VacationModel";
 import notifyService from "../../../Services/NotifyService";
-import userService from "../../../Services/UserService";
+import vacationService from "../../../Services/VacationService";
+import { useAuth } from "../../LayoutArea/AuthProvider";
 import Card from "../Card/Card";
 import "./List.css";
-import UserModel from "../../../Models/UserModel";
 
 function List(): JSX.Element {
-  const [users, setUsers] = useState<UserModel[]>([]);
+  const [items, setList] = useState<vacationModel[]>([]);
+
+  const navigate = useNavigate();
+  const token = useAuth().token;
+  if (!token) navigate("/");
 
   useEffect(() => {
-    showUsers();
+    showList();
   }, []);
 
-  async function showUsers() {
+  async function showList() {
     try {
-      const dbUsers = await userService.getAllUsers();
-      setUsers(dbUsers);
+      const dbItems = await vacationService.getAll();
+      setList(dbItems);
     } catch (err) {
       notifyService.error(err);
     }
@@ -23,8 +29,8 @@ function List(): JSX.Element {
 
   return (
     <div className="List">
-      {users.map((user) => (
-        <Card key={user.userId} user={user} />
+      {items.map((item) => (
+        <Card key={item.vacationId} item={item} />
       ))}
     </div>
   );

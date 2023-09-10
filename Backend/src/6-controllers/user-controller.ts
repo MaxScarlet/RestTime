@@ -27,8 +27,14 @@ router.get(
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const userId = +request.params.userId;
-      const user = await userService.getUsersById(userId);
-      response.json(user);
+      const users = await userService.getUsersById(userId);
+      if (users.length === 0) {
+        next({ message: "User not found", status: 404 });
+      }
+      if (users.length > 1) {
+        next({ message: "Multiple users found", status: 300 });
+      }
+      response.json(users[0]);
     } catch (err: any) {
       next(err);
     }
@@ -41,10 +47,8 @@ router.post(
   "/user/login",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const { email, password } = request.body;
       const resp = await userService.login(request.body);
       const user = resp[0];
-      console.log("Returned user: ", user);
 
       if (user) {
         const token = jwt.sign(
@@ -52,12 +56,26 @@ router.post(
           secretKey,
           { expiresIn: "1h" }
         );
-        response.json(token);
+        response.json({ token });
       } else {
         response.sendStatus(StatusCode.Unauthorized);
       }
       //Cast to UserModel
       //const usersList = new userModel[]
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+router.post(
+  "/user",
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const success: boolean = await userService.createUser(request.body);
+      if (!success) {
+        next({ message: "DB Error", status: 500 });
+      }
+      response.sendStatus(StatusCode.Created);
     } catch (err: any) {
       next(err);
     }

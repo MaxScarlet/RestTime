@@ -4,41 +4,34 @@ import CredentialsModel from "../Models/CredentialModel";
 import UserModel from "../Models/UserModel";
 import appConfig from "../Utils/AppConfig";
 
+const mainUrl = appConfig.userUrl;
 class UserService {
-  public async getAllUsers() {
-    const response = await axios.get<UserModel[]>(appConfig.userUrl);
+  public async getAll() {
+    const response = await axios.get<UserModel[]>(mainUrl);
     const user = response.data;
     return user;
   }
 
   public async login(credentials: CredentialsModel) {
-    const response = await axios.post<UserModel>(
-      appConfig.userUrl + "login",
-      credentials
-    );
-    const token = response.data.toString();
-    localStorage.setItem("jwt_token", token);
+    const loginUrl = mainUrl + "login";
+    const response = await axios.post<any>(loginUrl, credentials);
+    const token = response.data.token;
+    // localStorage.setItem("jwt_token", token); // need only for "Remember me"
     return token;
   }
-  public async getUserInfo(userId: number) {
-    const response = await axios.get<UserModel[]>(appConfig.userUrl + userId);
-    const user = response.data[0];
+
+  public async getItem(userId: number) {
+    const response = await axios.get<any>(mainUrl + userId);
+    const user = response.data;
+    return user;
+  }
+
+  public async signUp(userData: UserModel) {
+    const response = await axios.post<any>(mainUrl, userData);
+    const user = response.data;
     return user;
   }
 }
-export const isAuth = (): boolean => {
-  const token = localStorage.getItem("jwt_token");
-  if (token) {
-    // const decodedToken: { exp: number } = jwtDecode(token);
-    // const currentTime = Date.now() / 1000;
-    // return decodedToken.exp > currentTime;
-    return true;
-  }
-  return false;
-};
 const userService = new UserService();
 
 export default userService;
-// function jwtDecode(token: string): { exp: number } {
-//   throw new Error("Function not implemented.");
-// }

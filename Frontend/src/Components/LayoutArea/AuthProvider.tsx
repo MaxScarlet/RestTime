@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from "react";
 import userService from "../../Services/UserService";
+import { useNavigate } from "react-router";
 
 interface AuthContextType {
   token: string | null;
@@ -26,7 +27,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setToken(token);
   };
 
-  const getUser = async () => {};
   const logout = () => {
     // Implement logout logic here
     // For a basic example, we'll clear the user state

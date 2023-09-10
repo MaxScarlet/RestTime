@@ -1,24 +1,26 @@
-import UserModel from "../../../Models/UserModel";
+import VacationModel from "../../../Models/VacationModel";
 import "./Card.css";
 
 interface CardProps {
-  user: UserModel;
-//   deleteMe: (giftId: number) => void;
+  item: VacationModel;
+  //   deleteMe: (giftId: number) => void;
 }
 
 function Card(props: CardProps): JSX.Element {
-//   function deleteMe() {
-//     props.deleteMe(props.gift.giftId);
-//   }
+  const startDate = new Date(props.item.startDate).toLocaleDateString();
+  const endDate = new Date(props.item.endDate).toLocaleDateString();
   return (
     <div className="container">
-      <span>First Name: {props.user.firstName}</span>
+      <span>Place: {props.item.place}</span>
       <br />
-      <span>Last Name: {props.user.lastName}</span>
+      {/* <image href={props.item.picturePath} /> */}
+      <span>Image: {props.item.picturePath} </span>
       <br />
-      <span>Email: {props.user.email}</span>
+      <span>Start Date: {startDate}</span>
       <br />
-      <span>Admin: {props.user.isAdmin}</span>
+      <span>End Date: {endDate}</span>
+      <br />
+      <span>Price: {props.item.price}</span>
       <br />
     </div>
   );
