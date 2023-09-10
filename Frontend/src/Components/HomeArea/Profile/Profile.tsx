@@ -11,11 +11,11 @@ const Profile: React.FC = () => {
 
   //UnAuth access handler
   const token = useAuth().token;
-  const navigate = useNavigate();
-  if (!token) navigate("/");
+//   const navigate = useNavigate();
+//   if (!token) navigate("/");
 
   useEffect(() => {
-    if (token) {
+    // if (token) {
       const decodedToken: any = jwt_decode(token);
       userService
         .getItem(decodedToken.userId)
@@ -28,7 +28,7 @@ const Profile: React.FC = () => {
           //Add new section for error messages
           setLoading(false);
         });
-    }
+    // }
   }, []);
 
   //   return !token ? null : (

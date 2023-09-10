@@ -10,9 +10,9 @@ import "./List.css";
 function List(): JSX.Element {
   const [items, setList] = useState<vacationModel[]>([]);
 
-  const navigate = useNavigate();
   const token = useAuth().token;
-  if (!token) navigate("/");
+  //   const navigate = useNavigate();
+  //   if (!token) navigate("/");
 
   useEffect(() => {
     showList();
