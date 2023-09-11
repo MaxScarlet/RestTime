@@ -40,6 +40,7 @@ const Profile: React.FC = () => {
         <p>Loading...</p>
       ) : (
         <div>
+          <p>ID: {user.userId}</p>
           <p>Name: {user.firstName + " " + user.lastName}</p>
           <p>Email: {user.email}</p>
           <p>Admin: {user.isAdmin ? "Yes" : "No"}</p> {/* Add profile! */}

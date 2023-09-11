@@ -25,6 +25,11 @@ class UserService {
     const user = response.data;
     return user;
   }
+  public async getDbName() {
+    const response = await axios.get<any>(appConfig.WebSiteName);
+    const dbName = response.data[0];
+    return dbName;
+  }
 
   public async signUp(userData: UserModel) {
     const response = await axios.post<any>(mainUrl, userData);

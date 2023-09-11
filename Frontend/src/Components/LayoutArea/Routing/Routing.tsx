@@ -8,8 +8,9 @@ import Profile from "../../HomeArea/Profile/Profile";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import UnauthorizedPage from "../UnauthorizedPage/UnauthorizedPage";
 import { useAuth } from "../AuthProvider";
+import Favorites from "../../HomeArea/Favorites/Favorites";
 
-const ProtectedRoute = ({ redirectPath = "/" }) => {
+const ProtectedRoute = ({ redirectPath = "/login" }) => {
   const token = useAuth().token;
   if (!token) {
     return <Navigate to={redirectPath} replace />;
@@ -28,7 +29,7 @@ function Routing(): JSX.Element {
         <Route path="/list" element={<List />} />
         <Route path="/profile" element={<Profile />} />
         {/* Liked vacations */}
-        {/* <Route path="/favorites" element={<Favorites />} /> */}
+        <Route path="/favorites" element={<Favorites />} />
       </Route>
 
       <Route path="/unauthorizedPage" element={<UnauthorizedPage />} />

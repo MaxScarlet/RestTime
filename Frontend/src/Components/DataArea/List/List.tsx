@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
 import vacationModel from "../../../Models/VacationModel";
 import notifyService from "../../../Services/NotifyService";
 import vacationService from "../../../Services/VacationService";
@@ -9,29 +8,56 @@ import "./List.css";
 
 function List(): JSX.Element {
   const [items, setList] = useState<vacationModel[]>([]);
-
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [selectedPage, setSelectedPage] = useState<number>(currentPage);
+  const itemsPerPage: number = 9;
   const token = useAuth().token;
-  //   const navigate = useNavigate();
-  //   if (!token) navigate("/");
 
   useEffect(() => {
     showList();
-  }, []);
+  }, [currentPage]); // Re-fetch data when currentPage changes
 
   async function showList() {
     try {
-      const dbItems = await vacationService.getAll();
+      const dbItems: vacationModel[] = await vacationService.getAll();
       setList(dbItems);
     } catch (err) {
       notifyService.error(err);
     }
   }
 
+  const indexOfLastItem: number = currentPage * itemsPerPage;
+  const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;
+  const currentItems: vacationModel[] = items.slice(
+    indexOfFirstItem,
+    indexOfLastItem
+  );
+
+  const totalPages: number = Math.ceil(items.length / itemsPerPage);
+
+  function nextPage() {
+    setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
+  }
+
+  function prevPage() {
+    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+  }
+
   return (
     <div className="List">
-      {items.map((item) => (
+      {currentItems.map((item) => (
         <Card key={item.vacationId} item={item} />
       ))}
+
+      <div className="pagination">
+        <button onClick={prevPage} disabled={currentPage === 1}>
+          Previous
+        </button>
+        <span>{`Page ${currentPage} of ${totalPages}`}</span>
+        <button onClick={nextPage} disabled={currentPage === totalPages}>
+          Next
+        </button>
+      </div>
     </div>
   );
 }
