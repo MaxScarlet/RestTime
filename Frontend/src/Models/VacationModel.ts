@@ -1,7 +1,7 @@
 class VacationModel {
   public vacationId: number;
   public place: string;
-  public desc: string;
+  public description: string;
   public startDate: Date;
   public endDate: Date;
   public price: number;

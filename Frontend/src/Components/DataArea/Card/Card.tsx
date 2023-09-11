@@ -13,6 +13,8 @@ function Card(props: CardProps): JSX.Element {
     <div className="container">
       <span>Place: {props.item.place}</span>
       <br />
+      <span>Description: {props.item.description}</span>
+      <br />
       <img src={props.item.picturePath} />
       {/* <span>Image: {props.item.picturePath} </span> */}
       <br />
