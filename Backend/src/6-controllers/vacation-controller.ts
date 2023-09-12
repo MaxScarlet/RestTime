@@ -14,5 +14,16 @@ router.get(
     }
   }
 );
+router.post(
+  "/vacations/favorites",
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const vacations = await vacationService.getFavorites(request.body);
+      response.json(vacations);
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
 
 export default router;

@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
-import userService from "../5-services/user-service";
+// import userService from "../5-services/user-service";
+import userService from "../5-services/user-service-mongo";
 import StatusCode from "../3-models/status-code";
 import jwt from "jsonwebtoken";
 
@@ -12,9 +13,6 @@ router.get(
     try {
       const users = await userService.getAllUsers();
 
-      //Cast to user model
-      //const usersList = new userModel[]
-
       response.json(users);
     } catch (err: any) {
       next(err);
@@ -26,15 +24,13 @@ router.get(
   "/user/:userId",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const userId = +request.params.userId;
-      const users = await userService.getUsersById(userId);
-      if (users.length === 0) {
+      const userId = request.params.userId;
+      const users = await userService.getUserById(userId);
+      if (!users) {
         next({ message: "User not found", status: 404 });
       }
-      if (users.length > 1) {
-        next({ message: "Multiple users found", status: 300 });
-      }
-      response.json(users[0]);
+
+      response.json(users);
     } catch (err: any) {
       next(err);
     }
@@ -48,11 +44,11 @@ router.post(
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const resp = await userService.login(request.body);
-      const user = resp[0];
+      const user = resp;
 
       if (user) {
         const token = jwt.sign(
-          { userId: user.userId, isAdmin: user.isAdmin },
+          { userId: user.userId, isAdmin: user.isAdmin , id: user.id},
           secretKey,
           { expiresIn: "1h" }
         );
@@ -60,8 +56,6 @@ router.post(
       } else {
         response.sendStatus(StatusCode.Unauthorized);
       }
-      //Cast to UserModel
-      //const usersList = new userModel[]
     } catch (err: any) {
       next(err);
     }

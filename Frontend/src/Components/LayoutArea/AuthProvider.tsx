@@ -1,11 +1,13 @@
 import React, { createContext, useContext, useState } from "react";
 import userService from "../../Services/UserService";
 import { useNavigate } from "react-router";
+import UserModel from "../../Models/UserModel";
 
 interface AuthContextType {
   token: string | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+//   user: UserModel | null;
 }
 
 // Create an AuthContext

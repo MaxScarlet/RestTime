@@ -11,23 +11,25 @@ const Profile: React.FC = () => {
 
   //UnAuth access handler
   const token = useAuth().token;
-//   const navigate = useNavigate();
-//   if (!token) navigate("/");
+  //   const navigate = useNavigate();
+  //   if (!token) navigate("/");
 
   useEffect(() => {
     // if (token) {
-      const decodedToken: any = jwt_decode(token);
-      userService
-        .getItem(decodedToken.userId)
-        .then((userInfo) => {
-          setUser(userInfo);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching user profile:", error);
-          //Add new section for error messages
-          setLoading(false);
-        });
+    const decodedToken: any = jwt_decode(token);
+    userService
+      .getItem(decodedToken.id)
+      .then((userInfo) => {
+        setUser(userInfo);
+        //Set user to local storage
+        localStorage.setItem("user", JSON.stringify(userInfo));
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching user profile:", error);
+        //Add new section for error messages
+        setLoading(false);
+      });
     // }
   }, []);
 

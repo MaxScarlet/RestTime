@@ -3,6 +3,7 @@ import "./Card.css";
 
 interface CardProps {
   item: VacationModel;
+  fav: boolean;
   //   deleteMe: (giftId: number) => void;
 }
 
@@ -10,6 +11,7 @@ function Card(props: CardProps): JSX.Element {
   const startDate = new Date(props.item.startDate).toLocaleDateString();
   const endDate = new Date(props.item.endDate).toLocaleDateString();
 
+  
   return (
     <div
       className="container"
@@ -31,7 +33,6 @@ function Card(props: CardProps): JSX.Element {
           backgroundColor: "rgba(0, 0, 0, 0.5)", // Adjust the opacity here (0.5 for 50% opacity)
         }}
       ></div>
-
       <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
         Place: {props.item.place}
       </span>
@@ -54,6 +55,7 @@ function Card(props: CardProps): JSX.Element {
         Price: {props.item.price}$
       </span>
       <br />
+      {props.fav ? <button>Follow</button> : null}
     </div>
   );
 }

@@ -5,6 +5,8 @@ class UserModel {
   public email: string;
   public password: string;
   public isAdmin?: boolean;
+  public favorites?: string[];
+  public _id: string;
 
   // public fromJWT(payload: any) {
   //   this.userId = payload.id;

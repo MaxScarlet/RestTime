@@ -5,13 +5,14 @@ import vacationService from "../../../Services/VacationService";
 import { useAuth } from "../../LayoutArea/AuthProvider";
 import Card from "../Card/Card";
 import "./List.css";
+import UserModel from "../../../Models/UserModel";
 
 function List(): JSX.Element {
   const [items, setList] = useState<vacationModel[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [selectedPage, setSelectedPage] = useState<number>(currentPage);
   const itemsPerPage: number = 9;
-  const token = useAuth().token;
+  const userInfo = JSON.parse(localStorage.getItem("user")) as UserModel;
+  const favsIds = userInfo.favorites;
 
   useEffect(() => {
     showList();
@@ -20,6 +21,7 @@ function List(): JSX.Element {
   async function showList() {
     try {
       const dbItems: vacationModel[] = await vacationService.getAll();
+
       setList(dbItems);
     } catch (err) {
       notifyService.error(err);
@@ -43,10 +45,17 @@ function List(): JSX.Element {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   }
 
+  function isFav(item: vacationModel) {
+    console.log(favsIds);
+    console.log(item);
+    console.log("Fav:", favsIds.includes(item._id));
+    return favsIds.includes(item._id);
+  }
+
   return (
     <div className="List">
       {currentItems.map((item) => (
-        <Card key={item.vacationId} item={item} />
+        <Card key={item.vacationId} item={item} fav={isFav(item)} />
       ))}
 
       <div className="pagination">

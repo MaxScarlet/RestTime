@@ -5,7 +5,7 @@ class VacationModel {
   public startDate: Date;
   public endDate: Date;
   public price: number;
-
+  public _id: string;
   //Check URI module/package
   public picturePath: string;
 
