@@ -25,5 +25,35 @@ router.post(
     }
   }
 );
+router.delete(
+  "/vacations/:id",
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const vacationId = request.params._id;
+      console.log(vacationId);
+      const vacations = await vacationService.deleteVacationById(vacationId);
+      response.json(vacations);
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
+router.put(
+  "/vacations/:id",
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const vacationId = request.params._id;
+      console.log(vacationId);
+      const vacations = await vacationService.updateVacationById(
+        vacationId,
+        request.body
+      );
+      response.json(vacations);
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
 
 export default router;

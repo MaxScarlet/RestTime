@@ -11,7 +11,6 @@ function Card(props: CardProps): JSX.Element {
   const startDate = new Date(props.item.startDate).toLocaleDateString();
   const endDate = new Date(props.item.endDate).toLocaleDateString();
 
-  
   return (
     <div
       className="container"
@@ -30,7 +29,7 @@ function Card(props: CardProps): JSX.Element {
           left: 0,
           width: "100%",
           height: "100%",
-          backgroundColor: "rgba(0, 0, 0, 0.5)", // Adjust the opacity here (0.5 for 50% opacity)
+          backgroundColor: "rgba(0, 0, 0, 0.3)", // Adjust the opacity here (0.5 for 50% opacity)
         }}
       ></div>
       <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>

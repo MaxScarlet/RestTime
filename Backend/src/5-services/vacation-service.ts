@@ -19,20 +19,6 @@ const getAllVacations = async (): Promise<VacationModel[]> => {
 };
 
 async function getFavorites(ids: string[]): Promise<VacationModel[]> {
-  // model.find(
-  //   {
-  //     _id: {
-  //       $in: [
-  //         mongoose.Types.ObjectId("4ed3ede8844f0f351100000c"),
-  //         mongoose.Types.ObjectId("4ed3f117a844e0471100000d"),
-  //         mongoose.Types.ObjectId("4ed3f18132f50c491100000e"),
-  //       ],
-  //     },
-  //   },
-  //   function (err, docs) {
-  //     console.log(docs);
-  //   }
-  // );
   const objIds = [];
   ids.forEach((id) => {
     objIds.push(new mongoose.Types.ObjectId(id));
@@ -40,7 +26,24 @@ async function getFavorites(ids: string[]): Promise<VacationModel[]> {
   return await VacationModelMongo.find().where("_id").in(objIds).exec();
 }
 
+// Update a vacation by ID
+const updateVacationById = async (
+  vacationId: string,
+  vacation: VacationModel
+) => {
+  return await VacationModelMongo.findByIdAndUpdate(vacationId, vacation, {
+    new: true,
+  });
+};
+
+// Delete a vacation by ID
+const deleteVacationById = async (userId: string) => {
+  return await VacationModelMongo.findByIdAndRemove(userId);
+};
+
 export default {
   getAllVacations,
   getFavorites,
+  deleteVacationById,
+  updateVacationById,
 };

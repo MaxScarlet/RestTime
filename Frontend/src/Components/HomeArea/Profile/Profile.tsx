@@ -11,8 +11,6 @@ const Profile: React.FC = () => {
 
   //UnAuth access handler
   const token = useAuth().token;
-  //   const navigate = useNavigate();
-  //   if (!token) navigate("/");
 
   useEffect(() => {
     // if (token) {
@@ -42,8 +40,8 @@ const Profile: React.FC = () => {
         <p>Loading...</p>
       ) : (
         <div>
-          <p>ID: {user.userId}</p>
-          <p>Name: {user.firstName + " " + user.lastName}</p>
+          <p>ID: {user._id}</p>
+          <p>Full Name: {user.firstName + " " + user.lastName}</p>
           <p>Email: {user.email}</p>
           <p>Admin: {user.isAdmin ? "Yes" : "No"}</p> {/* Add profile! */}
         </div>

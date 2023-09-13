@@ -46,9 +46,6 @@ function List(): JSX.Element {
   }
 
   function isFav(item: vacationModel) {
-    console.log(favsIds);
-    console.log(item);
-    console.log("Fav:", favsIds.includes(item._id));
     return favsIds.includes(item._id);
   }
 

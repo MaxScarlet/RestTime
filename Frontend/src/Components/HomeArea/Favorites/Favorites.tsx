@@ -15,8 +15,7 @@ function List(): JSX.Element {
   const [user, setUser] = useState<UserModel>();
 
   const token = useAuth().token;
-  //   const navigate = useNavigate();
-  //   if (!token) navigate("/");
+  
   useEffect(() => {
     showList();
   }, []); // Re-fetch data when currentPage changes
