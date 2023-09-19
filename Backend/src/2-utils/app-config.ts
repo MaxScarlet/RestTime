@@ -14,6 +14,7 @@ class AppConfig {
 
     // Database Name: 
     public mySqlDatabase = "resttime"; // Fill in database name
+
 }
 
 const appConfig = new AppConfig();

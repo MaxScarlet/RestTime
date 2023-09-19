@@ -26,6 +26,11 @@ async function getFavorites(ids: string[]): Promise<VacationModel[]> {
   return await VacationModelMongo.find().where("_id").in(objIds).exec();
 }
 
+//Add new vacation
+async function addVacation(vacation: VacationModel): Promise<any> {
+  return await VacationModelMongo.insertMany(vacation);
+}
+
 // Update a vacation by ID
 const updateVacationById = async (
   vacationId: string,
@@ -37,8 +42,8 @@ const updateVacationById = async (
 };
 
 // Delete a vacation by ID
-const deleteVacationById = async (userId: string) => {
-  return await VacationModelMongo.findByIdAndRemove(userId);
+const deleteVacationById = async (vacationId: string) => {
+  return await VacationModelMongo.findByIdAndRemove(vacationId);
 };
 
 export default {
@@ -46,4 +51,5 @@ export default {
   getFavorites,
   deleteVacationById,
   updateVacationById,
+  addVacation,
 };

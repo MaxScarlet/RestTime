@@ -4,7 +4,7 @@ interface VacationModel {
   vacationId: string;
   id: string;
   place: string;
-  desc: string;
+  description: string;
   startDate: Date;
   endDate: Date;
   price: number;
@@ -21,27 +21,27 @@ export interface VacationDoc extends VacationModel, Document {}
 export const VacationSchema: Schema = new Schema({
   vacationId: {
     type: String,
-    required: true,
+    required: false,
   },
   id: {
     type: String,
-    required: true,
+    required: false,
   },
   place: {
     type: String,
     required: true,
   },
-  desc: {
+  description: {
     type: String,
     required: false,
   },
   startDate: {
     type: Date,
-    required: true,
+    required: false,
   },
   endDate: {
     type: Date,
-    required: true,
+    required: false,
   },
   price: {
     type: Number,

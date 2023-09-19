@@ -15,9 +15,27 @@ router.get(
   }
 );
 router.post(
-  "/vacations/favorites",
+  "/vacations",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
+      const vacations = await vacationService.addVacation(request.body);
+      response.json(vacations);
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
+router.post(
+  "/vacations",
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      request.body.startDate = new Date(request.body.startDate)
+        .toISOString()
+        .split("T")[0];
+      request.body.endDate = new Date(request.body.endDate)
+        .toISOString()
+        .split("T")[0];
       const vacations = await vacationService.getFavorites(request.body);
       response.json(vacations);
     } catch (err: any) {
@@ -25,14 +43,17 @@ router.post(
     }
   }
 );
+
 router.delete(
   "/vacations/:id",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const vacationId = request.params._id;
+      const vacationId = request.params.id;
       console.log(vacationId);
       const vacations = await vacationService.deleteVacationById(vacationId);
-      response.json(vacations);
+      response.json(
+        "Vacation with the id " + vacationId + " has been deleted "
+      );
     } catch (err: any) {
       next(err);
     }
