@@ -36,11 +36,11 @@ export const UserSchema: Schema = new Schema({
   },
   isAdmin: {
     type: Boolean,
-    required: true,
+    required: false,
   },
   userId: {
     type: Number,
-    required: true,
+    required: false,
   },
   favorites: {
     type: Array,

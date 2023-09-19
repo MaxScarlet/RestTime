@@ -14,6 +14,20 @@ router.get(
     }
   }
 );
+
+router.get(
+  "/vacations/:id",
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const vacationId = request.params.id;
+      const vacations = await vacationService.getVacationById(vacationId);
+      response.json(vacations);
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
 router.post(
   "/vacations",
   async (request: Request, response: Response, next: NextFunction) => {

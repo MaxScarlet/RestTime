@@ -40,6 +40,9 @@ const updateVacationById = async (
     new: true,
   });
 };
+const getVacationById = async (vacationId: string) => {
+  return await VacationModelMongo.findById(vacationId);
+};
 
 // Delete a vacation by ID
 const deleteVacationById = async (vacationId: string) => {
@@ -52,4 +55,5 @@ export default {
   deleteVacationById,
   updateVacationById,
   addVacation,
+  getVacationById,
 };

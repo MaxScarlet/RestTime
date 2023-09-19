@@ -47,7 +47,7 @@ router.post(
 
       if (user) {
         const token = jwt.sign(
-          { userId: user.userId, isAdmin: user.isAdmin , id: user.id},
+          { userId: user.userId, isAdmin: user.isAdmin, id: user.id },
           secretKey,
           { expiresIn: "1h" }
         );
@@ -64,11 +64,13 @@ router.post(
   "/user",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const success: boolean = await userService.createUser(request.body);
-      if (!success) {
-        next({ message: "DB Error", status: 500 });
+      const newUser = await userService.createUser(request.body);
+      console.log(newUser);
+      if (newUser) {
+        response.sendStatus(StatusCode.Created);
+      } else {
+        response.sendStatus(StatusCode.NotFound);
       }
-      response.sendStatus(StatusCode.Created);
     } catch (err: any) {
       next(err);
     }
