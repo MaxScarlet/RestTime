@@ -27,15 +27,9 @@ router.post(
 );
 
 router.post(
-  "/vacations",
+  "/vacations/favorites",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      request.body.startDate = new Date(request.body.startDate)
-        .toISOString()
-        .split("T")[0];
-      request.body.endDate = new Date(request.body.endDate)
-        .toISOString()
-        .split("T")[0];
       const vacations = await vacationService.getFavorites(request.body);
       response.json(vacations);
     } catch (err: any) {

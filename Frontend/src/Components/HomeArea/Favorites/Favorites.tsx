@@ -13,8 +13,6 @@ function List(): JSX.Element {
   const [items, setList] = useState<vacationModel[]>([]);
   const [loading, setLoading] = useState(true); //Boolean flag to determine loading status
   const [user, setUser] = useState<UserModel>();
-
-  const token = useAuth().token;
   
   useEffect(() => {
     showList();

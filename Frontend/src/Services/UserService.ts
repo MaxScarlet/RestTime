@@ -20,11 +20,19 @@ class UserService {
     return token;
   }
 
-  public async getItem(userId: number) {
-    const response = await axios.get<any>(mainUrl + userId);
+  public async getItem(id: number, fullResp = false) {
+    const response = await axios.get<any>(mainUrl + id);
     const user = response.data;
-    return user;
+
+    if (fullResp) {
+      const { password, _id, userId, ...rest } = user;
+      return rest;
+    } else {
+      const { password, email, userId, ...rest } = user;
+      return rest;
+    }
   }
+
   public async getDbName() {
     const response = await axios.get<any>(appConfig.WebSiteName);
     const dbName = response.data[0];

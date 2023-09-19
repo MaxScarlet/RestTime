@@ -2,12 +2,13 @@ import React, { createContext, useContext, useState } from "react";
 import userService from "../../Services/UserService";
 import { useNavigate } from "react-router";
 import UserModel from "../../Models/UserModel";
+import jwt_decode from "jwt-decode";
 
 interface AuthContextType {
   token: string | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-//   user: UserModel | null;
+  //   user: UserModel | null;
 }
 
 // Create an AuthContext
@@ -26,12 +27,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     if (!token) {
       throw new Error("Authentication failed");
     }
+
+    //Set user to localStorage
+    const decodedToken: any = jwt_decode(token);
+    const user = await userService.getItem(decodedToken.id, true);
+    localStorage.setItem("user", JSON.stringify(user));
+
     setToken(token);
   };
 
   const logout = () => {
-    // Implement logout logic here
-    // For a basic example, we'll clear the user state
+    localStorage.removeItem("user");
     setToken(null);
   };
 

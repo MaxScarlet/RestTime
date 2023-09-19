@@ -9,26 +9,11 @@ const Profile: React.FC = () => {
   const [loading, setLoading] = useState(true); //Boolean flag to determine loading status
   const [user, setUser] = useState<UserModel>();
 
-  //UnAuth access handler
-  const token = useAuth().token;
-
   useEffect(() => {
-    // if (token) {
-    const decodedToken: any = jwt_decode(token);
-    userService
-      .getItem(decodedToken.id)
-      .then((userInfo) => {
-        setUser(userInfo);
-        //Set user to local storage
-        localStorage.setItem("user", JSON.stringify(userInfo));
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching user profile:", error);
-        //Add new section for error messages
-        setLoading(false);
-      });
-    // }
+    const lclUser = localStorage.getItem("user");
+    const user = JSON.parse(lclUser) as UserModel;
+    setUser(user);
+    setLoading(false);
   }, []);
 
   //   return !token ? null : (
@@ -40,10 +25,9 @@ const Profile: React.FC = () => {
         <p>Loading...</p>
       ) : (
         <div>
-          <p>ID: {user._id}</p>
           <p>Full Name: {user.firstName + " " + user.lastName}</p>
           <p>Email: {user.email}</p>
-          <p>Admin: {user.isAdmin ? "Yes" : "No"}</p> {/* Add profile! */}
+          <p>Admin: {user.isAdmin ? "Yes" : "No"}</p>
         </div>
       )}
     </div>

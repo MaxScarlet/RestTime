@@ -21,7 +21,8 @@ function Login(): JSX.Element {
   async function handleLogin() {
     //credentials: CredentialsModel
     try {
-      const token = await login(email, password);
+      const loginToken = await login(email, password);
+
       navigate("/profile");
     } catch (error) {
       notifyService.error(error);
