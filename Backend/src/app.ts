@@ -10,9 +10,10 @@ const server = express();
 
 server.use(cors());
 server.use(express.json());
-server.use("/api", userController);
-server.use("/api", vacationController);
+server.use("/api", userController, vacationController);
 server.use(routeNotFound);
 server.use(catchAll);
 
-server.listen(appConfig.port, () => console.log("Listening on http://localhost:" + appConfig.port));
+server.listen(appConfig.port, () =>
+  console.log("Listening on http://localhost:" + appConfig.port)
+);

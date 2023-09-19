@@ -1,5 +1,4 @@
 import express, { Request, Response, NextFunction } from "express";
-// import userService from "../5-services/user-service";
 import userService from "../5-services/user-service-mongo";
 import StatusCode from "../3-models/status-code";
 import jwt from "jsonwebtoken";
