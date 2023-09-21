@@ -1,0 +1,15 @@
+.AdminCard > button {
+  height: fit-content;
+  width: fit-content;
+  background-color: transparent;
+  float: right;
+  border: none;
+  cursor: pointer;
+}
+.infoSpan {
+  color: white;
+}
+img {
+  height: 100%;
+  width: 100%;
+}

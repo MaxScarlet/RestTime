@@ -1,16 +1,17 @@
 import VacationModel from "../../../Models/VacationModel";
-import "./Card.css";
+import "../Card/Card.css";
+import "./AdminCard.css";
 
 interface CardProps {
   item: VacationModel;
-  fav: boolean;
+  //   fav: boolean;
   //   deleteMe: (giftId: number) => void;
 }
 
-function Card(props: CardProps): JSX.Element {
+function AdminCard(props: CardProps): JSX.Element {
   const startDate = new Date(props.item.startDate).toLocaleDateString();
   const endDate = new Date(props.item.endDate).toLocaleDateString();
-  
+
   return (
     <div
       className="container"
@@ -54,9 +55,11 @@ function Card(props: CardProps): JSX.Element {
         Price: {props.item.price}$
       </span>
       <br />
-      {props.fav ? <button>Follow</button> : null}
+      <button>Edit</button>
+      <button>Delete</button>
+      <br />
     </div>
   );
 }
 
-export default Card;
+export default AdminCard;

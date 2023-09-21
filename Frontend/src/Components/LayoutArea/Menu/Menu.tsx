@@ -42,6 +42,15 @@ const MenuLink: React.FC<MenuProps> = ({
 function Menu(menuProps: MenuProps): JSX.Element {
   const { token, logout } = useAuth();
 
+  function isAdmin() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user.isAdmin) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   return (
     <div className="menu">
       <div className="menuItems">
@@ -63,9 +72,15 @@ function Menu(menuProps: MenuProps): JSX.Element {
           {token ? (
             //Wrap in JSX fragment
             <>
-              <MenuLink className="menuUserItem" to="/favorites">
-                My Favorites
-              </MenuLink>
+              {isAdmin() ? (
+                <MenuLink className="menuUserItem" to="/edit-vacation">
+                  Edit Vacation
+                </MenuLink>
+              ) : (
+                <MenuLink className="menuUserItem" to="/favorites">
+                  My Favorites
+                </MenuLink>
+              )}
               <MenuLink className="menuUserItem" to="/profile">
                 Profile
               </MenuLink>

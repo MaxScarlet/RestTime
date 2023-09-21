@@ -4,6 +4,7 @@ import notifyService from "../../../Services/NotifyService";
 import vacationService from "../../../Services/VacationService";
 import { useAuth } from "../../LayoutArea/AuthProvider";
 import Card from "../Card/Card";
+import AdminCard from "../AdminCard/AdminCard";
 import "./List.css";
 import UserModel from "../../../Models/UserModel";
 
@@ -48,13 +49,24 @@ function List(): JSX.Element {
   function isFav(item: vacationModel) {
     return favsIds.includes(item._id);
   }
+  function isAdmin() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user.isAdmin) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   return (
     <div className="List">
-      {currentItems.map((item) => (
-        <Card key={item.vacationId} item={item} fav={isFav(item)} />
-      ))}
-
+      {currentItems.map((item) =>
+        isAdmin() ? (
+          <AdminCard key={item.vacationId} item={item} />
+        ) : (
+          <Card key={item.vacationId} item={item} fav={isFav(item)} />
+        )
+      )}
       <div className="pagination">
         <button onClick={prevPage} disabled={currentPage === 1}>
           Previous

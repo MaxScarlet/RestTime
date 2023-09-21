@@ -9,6 +9,7 @@ import PageNotFound from "../PageNotFound/PageNotFound";
 import UnauthorizedPage from "../UnauthorizedPage/UnauthorizedPage";
 import { useAuth } from "../AuthProvider";
 import Favorites from "../../HomeArea/Favorites/Favorites";
+import EditVacation from "../../HomeArea/EditVacation/EditVacation";
 
 const ProtectedRoute = ({ redirectPath = "/login" }) => {
   const token = useAuth().token;
@@ -17,6 +18,15 @@ const ProtectedRoute = ({ redirectPath = "/login" }) => {
   }
   return <Outlet />; //Multiple children
 };
+
+function isAdmin() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  if (user.isAdmin) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 function Routing(): JSX.Element {
   return (
@@ -29,7 +39,12 @@ function Routing(): JSX.Element {
         <Route path="/list" element={<List />} />
         <Route path="/profile" element={<Profile />} />
         {/* Liked vacations */}
-        <Route path="/favorites" element={<Favorites />} />
+        {isAdmin() ? (
+          <Route path="/edit-vacation" element={<EditVacation />} />
+        ) : (
+          <Route path="/favorites" element={<Favorites />} />
+        )}
+        {/* <Route path="/favorites" element={<Favorites />} /> */}
       </Route>
 
       <Route path="/unauthorizedPage" element={<UnauthorizedPage />} />
