@@ -13,3 +13,21 @@ img {
   height: 100%;
   width: 100%;
 }
+/* .AdminCard > button {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  margin-top: auto;
+  width: 50px;
+}
+
+.editBtn {
+  float: left;
+  width: 50%;
+}
+.delBtn {
+  float: right;
+  width: 50%;
+} */

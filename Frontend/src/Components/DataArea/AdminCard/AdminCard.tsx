@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import VacationModel from "../../../Models/VacationModel";
 import "../Card/Card.css";
 import "./AdminCard.css";
@@ -11,7 +12,14 @@ interface CardProps {
 function AdminCard(props: CardProps): JSX.Element {
   const startDate = new Date(props.item.startDate).toLocaleDateString();
   const endDate = new Date(props.item.endDate).toLocaleDateString();
+  const navigate = useNavigate();
 
+  function editHandle() {
+    console.log("Clicked: ", props.item);
+    const vacation = props.item;
+    localStorage.setItem("vacation", JSON.stringify(vacation));
+    navigate("/edit-vacation");
+  }
   return (
     <div
       className="container"
@@ -21,6 +29,7 @@ function AdminCard(props: CardProps): JSX.Element {
         backgroundPosition: "center",
         position: "relative", // Ensure the container is a positioned element
       }}
+      onClick={editHandle}
     >
       {/* Semi-transparent overlay */}
       <div
@@ -41,7 +50,6 @@ function AdminCard(props: CardProps): JSX.Element {
         Description: {props.item.description}
       </span>
       <br />
-      {/* <img src={props.item.picturePath} /> */}
       <br />
       <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
         Start Date: {startDate}
@@ -55,9 +63,12 @@ function AdminCard(props: CardProps): JSX.Element {
         Price: {props.item.price}$
       </span>
       <br />
-      <button>Edit</button>
-      <button>Delete</button>
       <br />
+      {/* <button onClick={editHandle} className="editBtn">
+        Edit
+      </button>
+      <button className="delBtn">Delete</button>
+      <br /> */}
     </div>
   );
 }
