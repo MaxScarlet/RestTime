@@ -1,7 +1,8 @@
 import express, { Request, Response, NextFunction } from "express";
-import vacationService from "../5-services/vacation-service";
+import VacationService from "../5-services/vacation-service";
 
 const router = express.Router();
+const vacationService = new VacationService();
 
 router.get(
   "/vacations",
@@ -29,7 +30,7 @@ router.get(
 );
 
 router.post(
-  "/vacations",
+  "/vacations/:id",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const vacations = await vacationService.addVacation(request.body);
@@ -45,6 +46,21 @@ router.post(
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const vacations = await vacationService.getFavorites(request.body);
+      response.json(vacations);
+    } catch (err: any) {
+      next(err);
+    }
+  }
+);
+
+router.put(
+  "/vacations/:id",
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const vacations = await vacationService.updateVacationById(
+        request.params.id,
+        request.body
+      );
       response.json(vacations);
     } catch (err: any) {
       next(err);

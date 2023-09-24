@@ -1,9 +1,10 @@
 import express, { Request, Response, NextFunction } from "express";
-import userService from "../5-services/user-service-mongo";
+import UserService from "../5-services/user-service";
 import StatusCode from "../3-models/status-code";
 import jwt from "jsonwebtoken";
 
 const router = express.Router();
+const userService = new UserService();
 
 //Get users from database
 router.get(
@@ -11,27 +12,21 @@ router.get(
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const users = await userService.getAllUsers();
-
       response.json(users);
     } catch (err: any) {
-      next(err);
+      response.sendStatus(StatusCode.NotFound);
     }
   }
 );
-
 router.get(
-  "/user/:userId",
+  "/user/:id",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const userId = request.params.userId;
-      const users = await userService.getUserById(userId);
-      if (!users) {
-        next({ message: "User not found", status: 404 });
-      }
+      const users = await userService.getUserById(request.params.id);
 
       response.json(users);
     } catch (err: any) {
-      next(err);
+      response.sendStatus(StatusCode.NotFound);
     }
   }
 );
@@ -60,17 +55,46 @@ router.post(
     }
   }
 );
+
+router.put(
+  "/user/:id",
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const vacations = await userService.updateUserById(
+        request.params.id,
+        request.body
+      );
+      response.json(vacations);
+    } catch (err: any) {
+      response.sendStatus(StatusCode.NotFound).json(err);
+    }
+  }
+);
+
 router.post(
   "/user",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const newUser = await userService.createUser(request.body);
-      console.log(newUser);
-      if (newUser) {
+      const vacation = await userService.createUser(request.body);
+      if (vacation) {
         response.sendStatus(StatusCode.Created);
       } else {
         response.sendStatus(StatusCode.NotFound);
       }
+      response.json(vacation);
+    } catch (err: any) {
+      response.sendStatus(StatusCode.NotFound).json(err);
+    }
+  }
+);
+router.delete(
+  "/user/:id",
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const id = request.params.id;
+      console.log(id);
+      const user = await userService.deleteUserById(id);
+      response.json("User with the id " + user.id + " has been deleted ");
     } catch (err: any) {
       next(err);
     }

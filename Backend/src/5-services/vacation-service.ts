@@ -1,59 +1,54 @@
+import mongoose from "mongoose";
 import VacationModel, {
   VacationDoc,
   VacationSchema,
 } from "../3-models/vacation-model";
-import mongoose from "mongoose";
-import CredentialsModel from "../3-models/credential-model";
-import mongo from "../2-utils/mongo-dal";
 
-const mongoDb = mongo.connect();
-// Create and export the Vacation Model of Mongo
-const VacationModelMongo = mongoose.model<VacationDoc>(
-  "Vacation",
-  VacationSchema,
-  "Vacations"
-);
+export default class VacationService {
+  private vacationModelMongo;
+  constructor() {
+    this.vacationModelMongo = mongoose.model<VacationDoc>(
+      "Vacation",
+      VacationSchema,
+      "Vacations"
+    );
+  }
+  public getAllVacations = async (): Promise<VacationModel[]> => {
+    return await this.vacationModelMongo.find();
+  };
 
-const getAllVacations = async (): Promise<VacationModel[]> => {
-  return await VacationModelMongo.find();
-};
+  public async getFavorites(ids: string[]): Promise<VacationModel[]> {
+    const objIds = [];
+    ids.forEach((id) => {
+      objIds.push(new mongoose.Types.ObjectId(id));
+    });
+    return await this.vacationModelMongo.find().where("_id").in(objIds).exec();
+  }
 
-async function getFavorites(ids: string[]): Promise<VacationModel[]> {
-  const objIds = [];
-  ids.forEach((id) => {
-    objIds.push(new mongoose.Types.ObjectId(id));
-  });
-  return await VacationModelMongo.find().where("_id").in(objIds).exec();
+  //Add new vacation
+  public async addVacation(vacation: VacationModel): Promise<any> {
+    return await this.vacationModelMongo.insertMany(vacation);
+  }
+
+  // Update a vacation by ID
+  public updateVacationById = async (
+    vacationId: string,
+    vacation: VacationModel
+  ) => {
+    return await this.vacationModelMongo.findByIdAndUpdate(
+      vacationId,
+      vacation,
+      {
+        new: true,
+      }
+    );
+  };
+  public getVacationById = async (vacationId: string) => {
+    return await this.vacationModelMongo.findById(vacationId);
+  };
+
+  // Delete a vacation by ID
+  public deleteVacationById = async (vacationId: string) => {
+    return await this.vacationModelMongo.findByIdAndRemove(vacationId);
+  };
 }
-
-//Add new vacation
-async function addVacation(vacation: VacationModel): Promise<any> {
-  return await VacationModelMongo.insertMany(vacation);
-}
-
-// Update a vacation by ID
-const updateVacationById = async (
-  vacationId: string,
-  vacation: VacationModel
-) => {
-  return await VacationModelMongo.findByIdAndUpdate(vacationId, vacation, {
-    new: true,
-  });
-};
-const getVacationById = async (vacationId: string) => {
-  return await VacationModelMongo.findById(vacationId);
-};
-
-// Delete a vacation by ID
-const deleteVacationById = async (vacationId: string) => {
-  return await VacationModelMongo.findByIdAndRemove(vacationId);
-};
-
-export default {
-  getAllVacations,
-  getFavorites,
-  deleteVacationById,
-  updateVacationById,
-  addVacation,
-  getVacationById,
-};

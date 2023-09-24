@@ -5,8 +5,10 @@ import vacationController from "./6-controllers/vacation-controller";
 import routeNotFound from "./4-middleware/route-not-found";
 import catchAll from "./4-middleware/catch-all";
 import appConfig from "./2-utils/app-config";
+import mongo from "./2-utils/mongo-dal";
 
 const server = express();
+const mongoDb = mongo.connect();
 
 server.use(cors());
 server.use(express.json());
