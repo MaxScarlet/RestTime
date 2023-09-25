@@ -16,7 +16,6 @@ class UserService {
     const loginUrl = mainUrl + "login";
     const response = await axios.post<any>(loginUrl, credentials);
     const token = response.data.token;
-    // localStorage.setItem("jwt_token", token); // need only for "Remember me"
     return token;
   }
 

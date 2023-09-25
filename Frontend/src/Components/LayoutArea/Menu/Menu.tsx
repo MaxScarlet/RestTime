@@ -40,16 +40,16 @@ const MenuLink: React.FC<MenuProps> = ({
 };
 
 function Menu(menuProps: MenuProps): JSX.Element {
-  const { token, logout } = useAuth();
+  const { token, logout ,isAdmin} = useAuth();
 
-  function isAdmin() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user.isAdmin) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+//   function isAdmin() {
+//     const user = JSON.parse(localStorage.getItem("user"));
+//     if (user.isAdmin) {
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   }
 
   return (
     <div className="menu">

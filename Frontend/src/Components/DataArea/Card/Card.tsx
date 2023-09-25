@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import VacationModel from "../../../Models/VacationModel";
 import "./Card.css";
 import appConfig from "../../../Utils/AppConfig";
+import { AuthProvider, useAuth } from "../../LayoutArea/AuthProvider";
 
 interface CardProps {
   item: VacationModel;
@@ -13,18 +14,19 @@ function Card(props: CardProps): JSX.Element {
   const startDate = new Date(props.item.startDate).toLocaleDateString();
   const endDate = new Date(props.item.endDate).toLocaleDateString();
   const navigate = useNavigate();
+  const { token, logout, isAdmin } = useAuth();
 
-  function isAdmin() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user.isAdmin) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+//   function isAdmin() {
+//     const user = JSON.parse(localStorage.getItem("user"));
+//     if (user.isAdmin) {
+//       return true;
+//     } else {
+//       return false;
+//     }
+//   }
   function editClick() {
     const vacation = props.item;
-    localStorage.setItem("vacation", JSON.stringify(vacation));
+    // localStorage.setItem("vacation", JSON.stringify(vacation));
     navigate(`/vacation/${props.item._id}/edit`);
   }
 

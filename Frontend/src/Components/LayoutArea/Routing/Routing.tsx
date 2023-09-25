@@ -3,14 +3,13 @@ import List from "../../DataArea/List/List";
 import Login from "../../DataArea/Login/Login";
 import SignUp from "../../DataArea/SignUp/SignUp";
 import About from "../../HomeArea/About/About";
+import EditVacation from "../../HomeArea/EditVacation/EditVacation";
+import Favorites from "../../HomeArea/Favorites/Favorites";
 import Home from "../../HomeArea/Home/Home";
 import Profile from "../../HomeArea/Profile/Profile";
+import { useAuth } from "../AuthProvider";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import UnauthorizedPage from "../UnauthorizedPage/UnauthorizedPage";
-import { useAuth } from "../AuthProvider";
-import Favorites from "../../HomeArea/Favorites/Favorites";
-import EditVacation from "../../HomeArea/EditVacation/EditVacation";
-import CreateVacation from "../../HomeArea/CreateVacation/CreateVacation";
 
 const ProtectedRoute = ({ redirectPath = "/login" }) => {
   const token = useAuth().token;

@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
+import UserModel from "../../../Models/UserModel";
 import vacationModel from "../../../Models/VacationModel";
 import notifyService from "../../../Services/NotifyService";
 import vacationService from "../../../Services/VacationService";
-import { useAuth } from "../../LayoutArea/AuthProvider";
 import Card from "../Card/Card";
-import AdminCard from "../AdminCard/AdminCard";
 import "./List.css";
-import UserModel from "../../../Models/UserModel";
 
 function List(): JSX.Element {
   const [items, setList] = useState<vacationModel[]>([]);
@@ -87,15 +85,13 @@ function List(): JSX.Element {
         onChange={(e) => setSelectedSort(e.target.value)}
         className="selectList"
       >
-        <option value="default" disabled>
-          Default Sorting
-        </option>
+        <option value="default">Default Sorting</option>
         <option value="place">Sort by Name</option>
         <option value="priceHtL">Sort by Price (Higher to Lower)</option>
         <option value="priceLtH">Sort by Price (Lower to Higher)</option>
         <option value="favorites">Sort by Favorites</option>
         {/* Add more sorting options as needed */}
-      </select>{" "}
+      </select>
       <div className="List">
         {currentItems.map((item) => (
           <Card key={item.vacationId} item={item} fav={isFav(item)} />

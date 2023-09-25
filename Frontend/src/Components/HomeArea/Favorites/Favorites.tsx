@@ -33,7 +33,7 @@ function List(): JSX.Element {
   return (
     <div className="List">
       {items.map((item) => (
-        <Card key={item.vacationId} item={item} fav={false} />
+        <Card key={item.vacationId} item={item} fav={true} />
       ))}
     </div>
   );

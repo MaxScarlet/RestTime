@@ -8,7 +8,7 @@ interface AuthContextType {
   token: string | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  //   user: UserModel | null;
+  isAdmin: () => boolean;
 }
 
 // Create an AuthContext
@@ -36,13 +36,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setToken(token);
   };
 
+  function isAdmin() {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user.isAdmin) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   const logout = () => {
     localStorage.removeItem("user");
     setToken(null);
   };
 
   return (
-    <AuthContext.Provider value={{ token: token, login, logout }}>
+    <AuthContext.Provider value={{ token: token, login, logout, isAdmin }}>
       {children}
     </AuthContext.Provider>
   );
