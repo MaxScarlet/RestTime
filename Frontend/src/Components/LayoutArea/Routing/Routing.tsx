@@ -10,6 +10,7 @@ import UnauthorizedPage from "../UnauthorizedPage/UnauthorizedPage";
 import { useAuth } from "../AuthProvider";
 import Favorites from "../../HomeArea/Favorites/Favorites";
 import EditVacation from "../../HomeArea/EditVacation/EditVacation";
+import CreateVacation from "../../HomeArea/CreateVacation/CreateVacation";
 
 const ProtectedRoute = ({ redirectPath = "/login" }) => {
   const token = useAuth().token;
@@ -36,13 +37,19 @@ function Routing(): JSX.Element {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/about" element={<About />} />
       <Route element={<ProtectedRoute />}>
-        <Route path="/list" element={<List />} />
+        <Route path="/vacation" element={<List />} />
         <Route path="/profile" element={<Profile />} />
         {/* Liked vacations */}
         {isAdmin() ? (
-          <Route path="/edit-vacation" element={<EditVacation />} />
+          <>
+            <Route path="/vacation/:id/edit" element={<EditVacation />} />
+            <Route path="/vacation/create" element={<EditVacation />} />
+          </>
         ) : (
-          <Route path="/favorites" element={<Favorites />} />
+          <>
+            <Route path="/favorites" element={<Favorites />} />
+            {/* <Route path="/vacation/:id" element={<CreateVacation />} /> */}
+          </>
         )}
         {/* <Route path="/favorites" element={<Favorites />} /> */}
       </Route>

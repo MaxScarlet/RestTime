@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import VacationModel from "../../../Models/VacationModel";
 import notifyService from "../../../Services/NotifyService";
 import vacationService from "../../../Services/VacationService";
 import "./EditVacation.css";
 
-function EditVacation(): JSX.Element {
+function CreateVacation(): JSX.Element {
   const { register, handleSubmit } = useForm();
   const params = useParams();
   const [vacation, setVacation] = useState<VacationModel>();
@@ -16,7 +16,6 @@ function EditVacation(): JSX.Element {
     vacationService
       .getInfo(params.id)
       .then((vacation) => {
-        // console.log(vacation);
         setVacation(vacation);
         setLoading(false);
       })
@@ -26,51 +25,28 @@ function EditVacation(): JSX.Element {
       });
   }
 
-  function formatDate(date: Date | string) {
-    let dateObj;
-    if (typeof date === "string") {
-      dateObj = new Date(date);
-    } else {
-      dateObj = date;
-    }
-    return dateObj.toISOString().split("T")[0];
+  function formatDate(date: Date) {
+    return new Date(date).toISOString().split("T")[0];
   }
 
   useEffect(() => {
-    if (!params.id) {
-      setVacation(new VacationModel());
-      setLoading(false);
-    } else {
-      getVacation();
-    }
+    getVacation();
   }, []);
-
-  // Outside of useEffect, check if params.id exists and set vacation accordingly
-  //   if (!params.id) {
-  //     setVacation(new VacationModel());
-  //     setLoading(false);
-  //   }
 
   const navigate = useNavigate();
 
   async function handleVacation(vacation: any) {
     try {
-      const id = params.id;
-      let response;
-      
-      if (id) {
-        console.log("editVacation");
-        response = await vacationService.editVacation(vacation, id);
-      } else {
-        console.log("addVacation");
-        response = await vacationService.addVacation(vacation);
-      }
-      console.log(response);
+      console.log("Edited vacation:", vacation);
+
+      //vacation.startDate = new Date(vacation.startDateFormat);
+      //vacation.endDate = new Date(vacation.endDateFormat);
+
+      //   const response = await vacationService.editVacation(vacation);
     } catch (error) {
       notifyService.error(error);
     }
   }
-
   return (
     <div className="edit-container">
       <div className="edit-box">
@@ -132,25 +108,7 @@ function EditVacation(): JSX.Element {
                 {...register("price")}
               />
             </div>
-            <div
-              className="form-group"
-              style={{
-                backgroundImage: `url(${vacation.picturePath})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                position: "relative",
-                height: "150px", // Ensure the container is a positioned element
-              }}
-            >
-              <input
-                type="file"
-                name="picture"
-                accept="image/*"
-                placeholder="Select picture for the vacation"
-                {...register("picture")}
-              />
-            </div>
-            <button className="login-button">Submit</button>
+            <button className="login-button">Edit</button>
           </form>
         ) : (
           <p> Loading...</p>
@@ -160,4 +118,4 @@ function EditVacation(): JSX.Element {
   );
 }
 
-export default EditVacation;
+export default CreateVacation;

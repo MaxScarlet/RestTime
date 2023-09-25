@@ -4,16 +4,16 @@ class AppConfig {
     public port = 4040;
 
     // Database Host (on which computer the database exists):
-    public mySqlHost = "localhost";
+    // public mySqlHost = "localhost";
 
     // Database User
-    public mySqlUser = "root";
+    // public mySqlUser = "root";
 
     // Database Password: 
-    public mySqlPassword = "";
+    // public mySqlPassword = "";
 
     // Database Name: 
-    public mySqlDatabase = "resttime"; // Fill in database name
+    // public mySqlDatabase = "resttime"; 
 
 }
 

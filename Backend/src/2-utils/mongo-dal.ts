@@ -28,8 +28,6 @@ class MongoConfig {
     }
 }
 
-// 'mongodb+srv://oxymorontech:1R3mqAOR1gZ545oX@main.pqd3zvw.mongodb.net/?retryWrites=true&w=majority'
-// 'mongodb+srv://<user>:<password>@main.pqd3zvw.mongodb.net/?retryWrites=true&w=majority'
 const mongo = new MongoConfig('main.pqd3zvw.mongodb.net');
 
 

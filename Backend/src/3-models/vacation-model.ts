@@ -1,4 +1,5 @@
 import { Schema } from "mongoose";
+import { UploadedFile } from "express-fileupload";
 
 interface VacationModel {
   vacationId: string;
@@ -9,15 +10,15 @@ interface VacationModel {
   endDate: Date;
   price: number;
 
-  //Check URI module/package
   picturePath: string;
+  picture: UploadedFile;
 }
 
 export default VacationModel;
 
 export interface VacationDoc extends VacationModel, Document {}
 
-// Define the User schema
+// Define schema
 export const VacationSchema: Schema = new Schema({
   vacationId: {
     type: String,

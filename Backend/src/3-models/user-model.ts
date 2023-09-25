@@ -15,7 +15,7 @@ export default UserModel;
 
 export interface UserDoc extends UserModel, Document {}
 
-// Define the User schema
+// Define schema
 export const UserSchema: Schema = new Schema({
   firstName: {
     type: String,

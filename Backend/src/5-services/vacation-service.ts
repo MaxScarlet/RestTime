@@ -3,6 +3,7 @@ import VacationModel, {
   VacationDoc,
   VacationSchema,
 } from "../3-models/vacation-model";
+import imageHelper from "../2-utils/image-handle";
 
 export default class VacationService {
   private vacationModelMongo;
@@ -27,7 +28,14 @@ export default class VacationService {
 
   //Add new vacation
   public async addVacation(vacation: VacationModel): Promise<any> {
-    return await this.vacationModelMongo.insertMany(vacation);
+    const response = await this.vacationModelMongo.insertMany(vacation);
+    const imageName = vacation.picture
+      ? await imageHelper.saveImage(
+          vacation.picture,
+          response[0]._id.toString()
+        )
+      : "";
+    return response;
   }
 
   // Update a vacation by ID
@@ -35,6 +43,10 @@ export default class VacationService {
     vacationId: string,
     vacation: VacationModel
   ) => {
+    const imageName = vacation.picture
+      ? await imageHelper.saveImage(vacation.picture, vacationId)
+      : "";
+    vacation.picturePath = "";
     return await this.vacationModelMongo.findByIdAndUpdate(
       vacationId,
       vacation,

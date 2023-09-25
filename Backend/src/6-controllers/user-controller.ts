@@ -18,6 +18,7 @@ router.get(
     }
   }
 );
+
 router.get(
   "/user/:id",
   async (request: Request, response: Response, next: NextFunction) => {

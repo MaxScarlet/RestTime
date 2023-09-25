@@ -1,7 +1,7 @@
 class AppConfig {
-  public userUrl = "http://localhost:4000/api/user/";
-  //public userUrl = "https://voudez7zo6.execute-api.eu-west-1.amazonaws.com/dev/user/"; // STUB-OXY
-  public vacationUrl = "http://localhost:4000/api/vacations/";
+  public baseURL = "http://localhost:4040/";
+  public userUrl = `${this.baseURL}api/user/`;
+  public vacationUrl = `${this.baseURL}api/vacations/`;
   public WebSiteName = "RestTime";
 }
 

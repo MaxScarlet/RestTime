@@ -18,8 +18,9 @@ function AdminCard(props: CardProps): JSX.Element {
     console.log("Clicked: ", props.item);
     const vacation = props.item;
     localStorage.setItem("vacation", JSON.stringify(vacation));
-    navigate("/edit-vacation");
+    navigate(`/vacation/${props.item._id}/edit`);
   }
+
   return (
     <div
       className="container"
@@ -63,12 +64,6 @@ function AdminCard(props: CardProps): JSX.Element {
         Price: {props.item.price}$
       </span>
       <br />
-      <br />
-      {/* <button onClick={editHandle} className="editBtn">
-        Edit
-      </button>
-      <button className="delBtn">Delete</button>
-      <br /> */}
     </div>
   );
 }

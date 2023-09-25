@@ -6,9 +6,14 @@ class VacationModel {
   public endDate: Date;
   public price: number;
   public _id: string;
+  
   //Check URI module/package
   public picturePath: string;
 
+  constructor() {
+    this.startDate = new Date();
+    this.endDate = new Date();
+  }
   // public fromJWT(payload: any) {
   //   this.userId = payload.id;
   //   this.email = payload.email;

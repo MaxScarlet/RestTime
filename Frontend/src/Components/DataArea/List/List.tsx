@@ -11,6 +11,7 @@ import UserModel from "../../../Models/UserModel";
 function List(): JSX.Element {
   const [items, setList] = useState<vacationModel[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [selectedSort, setSelectedSort] = useState<string>("default"); // Default sorting option
   const itemsPerPage: number = 9;
   const userInfo = JSON.parse(localStorage.getItem("user")) as UserModel;
   const favsIds = userInfo.favorites;
@@ -31,6 +32,7 @@ function List(): JSX.Element {
 
   const indexOfLastItem: number = currentPage * itemsPerPage;
   const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;
+
   const currentItems: vacationModel[] = items.slice(
     indexOfFirstItem,
     indexOfLastItem
@@ -58,23 +60,55 @@ function List(): JSX.Element {
     }
   }
 
+  // Sorting function
+  const sortItems = (a: vacationModel, b: vacationModel) => {
+    switch (selectedSort) {
+      case "place":
+        return a.place.localeCompare(b.place);
+      case "priceHtL":
+        return a.price - b.price;
+      case "priceLtH":
+        return b.price - a.price;
+      case "favorites":
+        return isFav(a) ? -1 : 1;
+      default:
+        return 0;
+    }
+  };
+
+  // Sort the currentItems array
+  currentItems.sort(sortItems);
+
   return (
-    <div className="List">
-      {currentItems.map((item) =>
-        isAdmin() ? (
-          <AdminCard key={item.vacationId} item={item} />
-        ) : (
+    <div>
+      {/* Selection box for sorting */}
+      <select
+        value={selectedSort}
+        onChange={(e) => setSelectedSort(e.target.value)}
+        className="selectList"
+      >
+        <option value="default" disabled>
+          Default Sorting
+        </option>
+        <option value="place">Sort by Name</option>
+        <option value="priceHtL">Sort by Price (Higher to Lower)</option>
+        <option value="priceLtH">Sort by Price (Lower to Higher)</option>
+        <option value="favorites">Sort by Favorites</option>
+        {/* Add more sorting options as needed */}
+      </select>{" "}
+      <div className="List">
+        {currentItems.map((item) => (
           <Card key={item.vacationId} item={item} fav={isFav(item)} />
-        )
-      )}
-      <div className="pagination">
-        <button onClick={prevPage} disabled={currentPage === 1}>
-          Previous
-        </button>
-        <span>{`Page ${currentPage} of ${totalPages}`}</span>
-        <button onClick={nextPage} disabled={currentPage === totalPages}>
-          Next
-        </button>
+        ))}
+        <div className="pagination">
+          <button onClick={prevPage} disabled={currentPage === 1}>
+            Previous
+          </button>
+          <span>{`Page ${currentPage} of ${totalPages}`}</span>
+          <button onClick={nextPage} disabled={currentPage === totalPages}>
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );

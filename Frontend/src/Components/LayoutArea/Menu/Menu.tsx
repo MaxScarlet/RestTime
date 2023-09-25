@@ -59,7 +59,7 @@ function Menu(menuProps: MenuProps): JSX.Element {
         </MenuLink>
 
         {token ? (
-          <MenuLink className="menuItem" to="/list">
+          <MenuLink className="menuItem" to="/vacation">
             Vacations
           </MenuLink>
         ) : null}
@@ -73,8 +73,8 @@ function Menu(menuProps: MenuProps): JSX.Element {
             //Wrap in JSX fragment
             <>
               {isAdmin() ? (
-                <MenuLink className="menuUserItem" to="/edit-vacation">
-                  Edit Vacation
+                <MenuLink className="menuUserItem" to="/vacation/create">
+                  Create Vacation
                 </MenuLink>
               ) : (
                 <MenuLink className="menuUserItem" to="/favorites">
