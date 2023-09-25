@@ -1,4 +1,7 @@
 import express from "express";
+import swaggerUi from 'swagger-ui-express';
+import swaggerJSDoc from 'swagger-jsdoc';
+
 import cors from "cors";
 import userController from "./6-controllers/user-controller";
 import vacationController from "./6-controllers/vacation-controller";
@@ -16,6 +19,22 @@ server.use(cors());
 //Support file upload:
 server.use(expressFileUpload());
 server.use(express.json());
+
+const swaggerOptions = {
+    definition: {
+        openapi: '3.0.0',
+        info: {
+            title: 'RestTime API',
+            version: '1.0.0',
+            description: 'API for RestTime project'
+        }
+    },
+    apis: ['./src/6-controllers/*.ts']
+};
+
+const swaggerSpec = swaggerJSDoc(swaggerOptions);
+server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
 server.use("/api", userController);
 server.use("/api", vacationController);
 server.use(routeNotFound);

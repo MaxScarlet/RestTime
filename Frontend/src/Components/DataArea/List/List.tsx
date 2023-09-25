@@ -64,9 +64,9 @@ function List(): JSX.Element {
       case "place":
         return a.place.localeCompare(b.place);
       case "priceHtL":
-        return a.price - b.price;
-      case "priceLtH":
         return b.price - a.price;
+      case "priceLtH":
+        return a.price - b.price;
       case "favorites":
         return isFav(a) ? -1 : 1;
       default:
