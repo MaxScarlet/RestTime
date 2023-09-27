@@ -11,7 +11,7 @@ function Home(): JSX.Element {
         {/* Hero section with a call-to-action */}
         <h1>Welcome to {dbName}</h1>
         <p>Your adventure begins here.</p>
-        <Link to="/list" className="cta-button">
+        <Link to="/vacation" className="cta-button">
           Explore Tours
         </Link>
       </main>

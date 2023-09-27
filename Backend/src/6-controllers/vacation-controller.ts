@@ -3,7 +3,7 @@ import imageHandle from "../2-utils/image-handle";
 import VacationService from "../5-services/vacation-service";
 
 const router = express.Router();
-const vacationService = new VacationService();
+const service = new VacationService();
 
 /**
  * @swagger
@@ -23,10 +23,10 @@ const vacationService = new VacationService();
  *         description: Success
  */
 router.get(
-  "/vacations",
+  "/",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const vacations = await vacationService.getAllVacations();
+      const vacations = await service.getAllVacations();
       response.json(vacations);
     } catch (err: any) {
       next(err);
@@ -35,7 +35,7 @@ router.get(
 );
 /**
  * @swagger
- * /vacations/{id}:
+ * /api/vacations/{id}:
  *   get:
  *     summary: Get a vacation by ID
  *     tags: [Vacations]
@@ -58,11 +58,11 @@ router.get(
  *         description: Vacation not found
  */
 router.get(
-  "/vacations/:id",
+  "/:id",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const vacationId = request.params.id;
-      const vacations = await vacationService.getVacationById(vacationId);
+      const vacations = await service.getVacationById(vacationId);
       response.json(vacations);
     } catch (err: any) {
       next(err);
@@ -72,7 +72,7 @@ router.get(
 
 /**
  * @swagger
- * /vacations:
+ * /api/vacations:
  *   post:
  *     summary: Create a new vacation
  *     tags: [Vacations]
@@ -94,12 +94,12 @@ router.get(
  *         description: Bad request, invalid data provided
  */
 router.post(
-  "/vacations",
+  "/",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       request.body.picture = request.files["picture[]"];
 
-      const vacations = await vacationService.addVacation(request.body);
+      const vacations = await service.addVacation(request.body);
       response.json(vacations);
     } catch (err: any) {
       next(err);
@@ -108,7 +108,7 @@ router.post(
 );
 /**
  * @swagger
- * /vacations/favorites:
+ * /api/vacations/favorites:
  *   post:
  *     summary: Add a vacation to favorites
  *     tags: [Vacations]
@@ -132,10 +132,10 @@ router.post(
  *         description: Vacation not found
  */
 router.post(
-  "/vacations/favorites",
+  "/favorites",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const vacations = await vacationService.getFavorites(request.body);
+      const vacations = await service.getFavorites(request.body);
       response.json(vacations);
     } catch (err: any) {
       next(err);
@@ -144,7 +144,7 @@ router.post(
 );
 /**
  * @swagger
- * /vacations/{id}:
+ * /api/vacations/{id}:
  *   put:
  *     summary: Update a vacation by ID
  *     tags: [Vacations]
@@ -175,11 +175,11 @@ router.post(
  *         description: Vacation not found
  */
 router.put(
-  "/vacations/:id",
+  "/:id",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       request.body.picture = request.files["picture[]"];
-      const vacations = await vacationService.updateVacationById(
+      const vacations = await service.updateVacationById(
         request.params.id,
         request.body
       );
@@ -192,7 +192,7 @@ router.put(
 
 /**
  * @swagger
- * /vacations/{id}:
+ * /api/vacations/{id}:
  *   delete:
  *     summary: Delete a vacation by ID
  *     tags: [Vacations]
@@ -211,12 +211,12 @@ router.put(
  *         description: Vacation not found
  */
 router.delete(
-  "/vacations/:id",
+  "/:id",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const vacationId = request.params.id;
       console.log(vacationId);
-      const vacations = await vacationService.deleteVacationById(vacationId);
+      const vacations = await service.deleteVacationById(vacationId);
       response.json(
         "Vacation with the id " + vacationId + " has been deleted "
       );
@@ -228,7 +228,7 @@ router.delete(
 
 /**
  * @swagger
- * /vacations/{id}:
+ * /api/vacations/{id}:
  *   put:
  *     summary: Update a vacation by ID
  *     tags: [Vacations]
@@ -259,12 +259,12 @@ router.delete(
  *         description: Vacation not found
  */
 router.put(
-  "/vacations/:id",
+  "/:id",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const vacationId = request.params.id;
       console.log(vacationId);
-      const vacations = await vacationService.updateVacationById(
+      const vacations = await service.updateVacationById(
         vacationId,
         request.body
       );
@@ -276,7 +276,7 @@ router.put(
 );
 /**
  * @swagger
- * /vacations/{id}/image:
+ * /api/vacations/{id}/image:
  *   get:
  *     summary: Get a vacation's image by ID
  *     tags: [Vacations]
@@ -300,7 +300,7 @@ router.put(
  *         description: Vacation not found or image not available
  */
 router.get(
-  "/vacations/:id/image",
+  "/:id/image",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const id = request.params.id;

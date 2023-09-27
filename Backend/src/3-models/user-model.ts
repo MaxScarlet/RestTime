@@ -9,7 +9,7 @@ interface UserModel {
   email: string;
   password: string;
   isAdmin: boolean;
-  favorites: FavoriteModel[];
+  favorites: string[];
 }
 export default UserModel;
 

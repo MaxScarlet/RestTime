@@ -4,7 +4,7 @@ import StatusCode from "../3-models/status-code";
 import jwt from "jsonwebtoken";
 
 const router = express.Router();
-const userService = new UserService();
+const service = new UserService();
 
 /**
  * @swagger
@@ -24,19 +24,20 @@ const userService = new UserService();
  *         description: Success
  */
 router.get(
-  "/user",
+  "/",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const users = await userService.getAllUsers();
+      const users = await service.getAllUsers();
       response.json(users);
     } catch (err: any) {
       response.sendStatus(StatusCode.NotFound);
     }
   }
 );
+
 /**
  * @swagger
- * /user/{id}:
+ * /api/user/{id}:
  *   get:
  *     summary: Get user information by ID
  *     tags: [Users]
@@ -47,7 +48,7 @@ router.get(
  *         description: ID of the user to retrieve
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *     responses:
  *       200:
  *         description: Success, returns user information
@@ -59,10 +60,10 @@ router.get(
  *         description: User not found
  */
 router.get(
-  "/user/:id",
+  "/:id",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const users = await userService.getUserById(request.params.id);
+      const users = await service.getUserById(request.params.id);
 
       response.json(users);
     } catch (err: any) {
@@ -74,7 +75,7 @@ router.get(
 const secretKey = "I-am-Groot";
 /**
  * @swagger
- * /user/login:
+ * /api/user/login:
  *   post:
  *     summary: User login
  *     tags: [Users]
@@ -100,10 +101,10 @@ const secretKey = "I-am-Groot";
  *         description: Unauthorized, invalid credentials
  */
 router.post(
-  "/user/login",
+  "/login",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const resp = await userService.login(request.body);
+      const resp = await service.login(request.body);
       const user = resp;
 
       if (user) {
@@ -124,7 +125,7 @@ router.post(
 
 /**
  * @swagger
- * /user/{id}:
+ * /api/user/{id}:
  *   put:
  *     summary: Update user information by ID
  *     tags: [Users]
@@ -135,7 +136,7 @@ router.post(
  *         description: ID of the user to update
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -155,10 +156,10 @@ router.post(
  *         description: User not found
  */
 router.put(
-  "/user/:id",
+  "/:id",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const vacations = await userService.updateUserById(
+      const vacations = await service.updateUserById(
         request.params.id,
         request.body
       );
@@ -168,9 +169,103 @@ router.put(
     }
   }
 );
+
 /**
  * @swagger
- * /user:
+ * /api/user/{id}/favorites/{vacationId}:
+ *   put:
+ *     summary: Add a vacation to a user's favorites
+ *     tags: [Users]
+ *     description: Add a vacation to a user's list of favorite vacations by their IDs.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         description: ID of the user
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: vacationId
+ *         description: ID of the vacation to add to favorites
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       204:
+ *         description: Success, the vacation has been added to favorites
+ *       404:
+ *         description: User or vacation not found
+ */
+router.put(
+  "/:id/favorites/:vacationId",
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const userId = request.params.id;
+      const vacationId = request.params.vacationId;
+
+      let user = await service.getUserById(userId);
+      if (!user.favorites.includes(vacationId)) {
+        user.favorites.push(vacationId);
+      }
+      user = await service.updateUserById(userId, user);
+
+      response.json(user);
+    } catch (err: any) {
+      response.sendStatus(StatusCode.NoContent).json(err);
+    }
+  }
+);
+
+/**
+ * @swagger
+ * /api/user/{id}/favorites/{vacationId}:
+ *   delete:
+ *     summary: Add a vacation to a user's favorites
+ *     tags: [Users]
+ *     description: Add a vacation to a user's list of favorite vacations by their IDs.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         description: ID of the user
+ *         required: true
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: vacationId
+ *         description: ID of the vacation to add to favorites
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       204:
+ *         description: Success, the vacation has been added to favorites
+ *       404:
+ *         description: User or vacation not found
+ */
+router.delete(
+  "/:id/favorites/:vacationId",
+  async (request: Request, response: Response, next: NextFunction) => {
+    try {
+      const userId = request.params.id;
+      const vacationId = request.params.vacationId;
+
+      let user = await service.getUserById(userId);
+      const index = user.favorites.indexOf(vacationId, 0);
+      if (index > -1) {
+        user.favorites.splice(index, 1);
+      }
+      user = await service.updateUserById(userId, user);
+
+      response.json(user);
+    } catch (err: any) {
+      response.sendStatus(StatusCode.NoContent).json(err);
+    }
+  }
+);
+
+/**
+ * @swagger
+ * /api/user:
  *   post:
  *     summary: Create a new user
  *     tags: [Users]
@@ -192,10 +287,10 @@ router.put(
  *         description: Bad request, invalid data provided
  */
 router.post(
-  "/user",
+  "",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const vacation = await userService.createUser(request.body);
+      const vacation = await service.createUser(request.body);
       if (vacation) {
         response.sendStatus(StatusCode.Created);
       } else {
@@ -209,7 +304,7 @@ router.post(
 );
 /**
  * @swagger
- * /user/{id}:
+ * /api/user/{id}:
  *   delete:
  *     summary: Delete a user by ID
  *     tags: [Users]
@@ -220,7 +315,7 @@ router.post(
  *         description: ID of the user to delete
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *     responses:
  *       204:
  *         description: Success, the user has been deleted
@@ -228,12 +323,12 @@ router.post(
  *         description: User not found
  */
 router.delete(
-  "/user/:id",
+  "/:id",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const id = request.params.id;
       console.log(id);
-      const user = await userService.deleteUserById(id);
+      const user = await service.deleteUserById(id);
       response.json("User with the id " + user.id + " has been deleted ");
     } catch (err: any) {
       next(err);

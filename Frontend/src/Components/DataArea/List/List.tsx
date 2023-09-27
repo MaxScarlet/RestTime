@@ -16,11 +16,14 @@ function List(): JSX.Element {
 
   useEffect(() => {
     showList();
-  }, [currentPage]); // Re-fetch data when currentPage changes
+  }, [currentPage, selectedSort]); // Re-fetch data when currentPage changes
 
   async function showList() {
     try {
-      const dbItems: vacationModel[] = await vacationService.getAll();
+      let dbItems: vacationModel[] = await vacationService.getAll();
+
+      // Sort the items based on the selectedSort
+      dbItems = dbItems.sort(sortItems);
 
       setList(dbItems);
     } catch (err) {
@@ -31,7 +34,7 @@ function List(): JSX.Element {
   const indexOfLastItem: number = currentPage * itemsPerPage;
   const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;
 
-  const currentItems: vacationModel[] = items.slice(
+  const itemsOnPage: vacationModel[] = items.slice(
     indexOfFirstItem,
     indexOfLastItem
   );
@@ -48,14 +51,6 @@ function List(): JSX.Element {
 
   function isFav(item: vacationModel) {
     return favsIds.includes(item._id);
-  }
-  function isAdmin() {
-    const user = JSON.parse(localStorage.getItem("user"));
-    if (user.isAdmin) {
-      return true;
-    } else {
-      return false;
-    }
   }
 
   // Sorting function
@@ -74,9 +69,6 @@ function List(): JSX.Element {
     }
   };
 
-  // Sort the currentItems array
-  currentItems.sort(sortItems);
-
   return (
     <div>
       {/* Selection box for sorting */}
@@ -90,11 +82,12 @@ function List(): JSX.Element {
         <option value="priceHtL">Sort by Price (Higher to Lower)</option>
         <option value="priceLtH">Sort by Price (Lower to Higher)</option>
         <option value="favorites">Sort by Favorites</option>
+        <option value="favorites">Sort by Favorites</option>
         {/* Add more sorting options as needed */}
       </select>
       <div className="List">
-        {currentItems.map((item) => (
-          <Card key={item.vacationId} item={item} fav={isFav(item)} />
+        {itemsOnPage.map((item) => (
+          <Card key={item._id} item={item} fav={isFav(item)} />
         ))}
         <div className="pagination">
           <button onClick={prevPage} disabled={currentPage === 1}>

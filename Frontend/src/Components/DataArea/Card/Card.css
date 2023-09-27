@@ -16,3 +16,32 @@ img {
 a:hover {
   cursor: pointer;
 }
+.heart {
+  color: gray;
+  position: relative;
+  /* top: -158px; */
+  float: left;
+  font-size: 24px;
+  cursor: pointer;
+}
+.heart:hover {
+  color: white;
+}
+.Liked {
+  color: red;
+}
+.Liked:hover {
+  color: pink;
+}
+.adminButton {
+  cursor: pointer;
+  margin: 2px 5px;
+}
+.adminMenu {
+  float: right;
+}
+.textContainer {
+  float: left;
+  position: relative;
+  top: -10px;
+}

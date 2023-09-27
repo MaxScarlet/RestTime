@@ -43,6 +43,24 @@ class UserService {
     const user = response.data;
     return user;
   }
+
+  public async favRemove(vacationId: string, userId: string) {
+    console.log("Unfollow", vacationId);
+    console.log("userId", userId);
+
+    const response = await axios.delete<any>(
+      mainUrl + userId + "/favorites/" + vacationId
+    );
+    return response.data;
+  }
+  public async favAdd(vacationId: string, userId: string) {
+    console.log("Follow", vacationId);
+    console.log("userId", userId);
+    const response = await axios.put<any>(
+      mainUrl + userId + "/favorites/" + vacationId
+    );
+    return response.data;
+  }
 }
 const userService = new UserService();
 

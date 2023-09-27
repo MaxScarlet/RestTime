@@ -2,7 +2,7 @@ import React, { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthProvider";
 import "./Menu.css";
-
+import image from "../../../Icon/swagger-icon.png";
 interface MenuProps {
   to?: string;
   children: ReactNode;
@@ -32,7 +32,7 @@ const MenuLink: React.FC<MenuProps> = ({
     <div
       className={`${linkClassName} ${className || ""}`}
       onClick={handleLinkClick}
-      style={{ cursor: "pointer" }} // Add cursor pointer for better UX
+      style={{ cursor: "pointer" }}
     >
       {children}
     </div>
@@ -40,16 +40,7 @@ const MenuLink: React.FC<MenuProps> = ({
 };
 
 function Menu(menuProps: MenuProps): JSX.Element {
-  const { token, logout ,isAdmin} = useAuth();
-
-//   function isAdmin() {
-//     const user = JSON.parse(localStorage.getItem("user"));
-//     if (user.isAdmin) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   }
+  const { token, logout, isAdmin } = useAuth();
 
   return (
     <div className="menu">
@@ -72,14 +63,23 @@ function Menu(menuProps: MenuProps): JSX.Element {
           {token ? (
             //Wrap in JSX fragment
             <>
+              <a
+                target="_blank"
+                className="menuItem"
+                href="http://localhost:4040/api-docs/#/"
+              >
+                <img src={image} alt="Swagger" title="Swagger" />
+              </a>
               {isAdmin() ? (
-                <MenuLink className="menuUserItem" to="/vacation/create">
-                  Create Vacation
+                <MenuLink className="menuUserItem " to="/vacation/create">
+                  Vacation
                 </MenuLink>
               ) : (
-                <MenuLink className="menuUserItem" to="/favorites">
-                  My Favorites
-                </MenuLink>
+                <>
+                  <MenuLink className="menuUserItem" to="/favorites">
+                    Followed
+                  </MenuLink>
+                </>
               )}
               <MenuLink className="menuUserItem" to="/profile">
                 Profile

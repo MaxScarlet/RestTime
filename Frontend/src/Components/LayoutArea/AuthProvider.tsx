@@ -20,22 +20,32 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [token, setToken] = useState<string | null>(null);
-
+  const lclToken = checkToken(localStorage.getItem("token"));
+  const [token, setToken] = useState<string | null>(lclToken);
   const login = async (email: string, password: string) => {
     const token = await userService.login({ email, password });
     if (!token) {
       throw new Error("Authentication failed");
     }
 
-    //Set user to localStorage
     const decodedToken: any = jwt_decode(token);
     const user = await userService.getItem(decodedToken.id, true);
     localStorage.setItem("user", JSON.stringify(user));
-
+    localStorage.setItem("token", token);
     setToken(token);
   };
 
+  function checkToken(token: string) {
+    if (token) {
+      const decodedToken: any = jwt_decode(token);
+      const currentTimestamp = Date.now() / 1000;
+      if (decodedToken.exp && decodedToken.exp < currentTimestamp) {
+        return null;
+      }
+      return token;
+    }
+    return null;
+  }
   function isAdmin() {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user.isAdmin) {
@@ -47,6 +57,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const logout = () => {
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     setToken(null);
   };
 

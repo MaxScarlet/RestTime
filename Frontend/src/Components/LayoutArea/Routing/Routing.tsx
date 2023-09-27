@@ -39,7 +39,7 @@ function Routing(): JSX.Element {
         <Route path="/vacation" element={<List />} />
         <Route path="/profile" element={<Profile />} />
         {/* Liked vacations */}
-        {isAdmin() ? (
+        {isAdmin ? (
           <>
             <Route path="/vacation/:id/edit" element={<EditVacation />} />
             <Route path="/vacation/create" element={<EditVacation />} />
@@ -50,7 +50,6 @@ function Routing(): JSX.Element {
             {/* <Route path="/vacation/:id" element={<CreateVacation />} /> */}
           </>
         )}
-        {/* <Route path="/favorites" element={<Favorites />} /> */}
       </Route>
 
       <Route path="/unauthorizedPage" element={<UnauthorizedPage />} />

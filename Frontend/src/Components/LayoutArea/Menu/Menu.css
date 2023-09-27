@@ -6,7 +6,12 @@
   color: #fff;
   padding: 10px;
 }
-
+.menuItem img{
+    height: 30px;
+}
+.menuItemIcon{
+    width: 30px;
+}
 .menuItems {
   list-style-type: none;
   padding: 0;

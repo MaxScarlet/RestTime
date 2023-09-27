@@ -21,7 +21,6 @@ const Profile: React.FC = () => {
     <div>
       <h2>User Profile</h2>
       {loading ? (
-        //Add loading spinner
         <p>Loading...</p>
       ) : (
         <div>

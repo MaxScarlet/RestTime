@@ -6,16 +6,16 @@ import VacationModel, {
 import imageHelper from "../2-utils/image-handle";
 
 export default class VacationService {
-  private vacationModelMongo;
+  private modelMongo;
   constructor() {
-    this.vacationModelMongo = mongoose.model<VacationDoc>(
+    this.modelMongo = mongoose.model<VacationDoc>(
       "Vacation",
       VacationSchema,
       "Vacations"
     );
   }
   public getAllVacations = async (): Promise<VacationModel[]> => {
-    return await this.vacationModelMongo.find();
+    return await this.modelMongo.find();
   };
 
   public async getFavorites(ids: string[]): Promise<VacationModel[]> {
@@ -23,12 +23,12 @@ export default class VacationService {
     ids.forEach((id) => {
       objIds.push(new mongoose.Types.ObjectId(id));
     });
-    return await this.vacationModelMongo.find().where("_id").in(objIds).exec();
+    return await this.modelMongo.find().where("_id").in(objIds).exec();
   }
 
   //Add new vacation
   public async addVacation(vacation: VacationModel): Promise<any> {
-    const response = await this.vacationModelMongo.insertMany(vacation);
+    const response = await this.modelMongo.insertMany(vacation);
     const imageName = vacation.picture
       ? await imageHelper.saveImage(
           vacation.picture,
@@ -47,7 +47,7 @@ export default class VacationService {
       ? await imageHelper.saveImage(vacation.picture, vacationId)
       : "";
     vacation.picturePath = "";
-    return await this.vacationModelMongo.findByIdAndUpdate(
+    return await this.modelMongo.findByIdAndUpdate(
       vacationId,
       vacation,
       {
@@ -56,11 +56,11 @@ export default class VacationService {
     );
   };
   public getVacationById = async (vacationId: string) => {
-    return await this.vacationModelMongo.findById(vacationId);
+    return await this.modelMongo.findById(vacationId);
   };
 
   // Delete a vacation by ID
   public deleteVacationById = async (vacationId: string) => {
-    return await this.vacationModelMongo.findByIdAndRemove(vacationId);
+    return await this.modelMongo.findByIdAndRemove(vacationId);
   };
 }

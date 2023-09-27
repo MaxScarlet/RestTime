@@ -3,24 +3,24 @@ import CredentialsModel from "../3-models/credential-model";
 import UserModel, { UserDoc, UserSchema } from "../3-models/user-model";
 
 export default class UserService {
-  private userModelMongo;
+  private modelMongo;
 
   constructor() {
-    this.userModelMongo = mongoose.model<UserDoc>("User", UserSchema, "Users");
+    this.modelMongo = mongoose.model<UserDoc>("User", UserSchema, "Users");
   }
 
   public getAllUsers = async (): Promise<UserModel[]> => {
-    return await this.userModelMongo.find();
+    return await this.modelMongo.find();
   };
 
   public getUserById = async (userId: string): Promise<UserModel> => {
-    return await this.userModelMongo.findById(userId);
+    return await this.modelMongo.findById(userId);
   };
 
   // Create a new user
   public createUser = async (user: UserModel): Promise<UserModel> => {
     try {
-      const newUser = new this.userModelMongo(user);
+      const newUser = new this.modelMongo(user);
 
       // Save the new user to the database
       const userCreated = await newUser.save();
@@ -32,18 +32,18 @@ export default class UserService {
     }
   };
   public async login(credentials: CredentialsModel): Promise<UserModel> {
-    return await this.userModelMongo.findOne(credentials);
+    return await this.modelMongo.findOne(credentials);
   }
 
   // Update a user by ID
   public updateUserById = async (userId: string, user: UserModel) => {
-    return await this.userModelMongo.findByIdAndUpdate(userId, user, {
+    return await this.modelMongo.findByIdAndUpdate(userId, user, {
       new: true,
     });
   };
 
   // Delete a user by ID
   public deleteUserById = async (userId: string) => {
-    return await this.userModelMongo.findByIdAndRemove(userId);
+    return await this.modelMongo.findByIdAndRemove(userId);
   };
 }

@@ -22,7 +22,6 @@ function Login(): JSX.Element {
     //credentials: CredentialsModel
     try {
       const loginToken = await login(email, password);
-
       navigate("/profile");
     } catch (error) {
       notifyService.error(error);

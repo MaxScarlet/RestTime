@@ -1,8 +1,10 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import VacationModel from "../../../Models/VacationModel";
-import "./Card.css";
+import userService from "../../../Services/UserService";
 import appConfig from "../../../Utils/AppConfig";
-import { AuthProvider, useAuth } from "../../LayoutArea/AuthProvider";
+import { useAuth } from "../../LayoutArea/AuthProvider";
+import "./Card.css";
+import jwt_decode from "jwt-decode";
 
 interface CardProps {
   item: VacationModel;
@@ -13,20 +15,13 @@ interface CardProps {
 function Card(props: CardProps): JSX.Element {
   const startDate = new Date(props.item.startDate).toLocaleDateString();
   const endDate = new Date(props.item.endDate).toLocaleDateString();
+  const params = useParams();
   const navigate = useNavigate();
   const { token, logout, isAdmin } = useAuth();
+  const decodedToken: any = jwt_decode(token);
 
-//   function isAdmin() {
-//     const user = JSON.parse(localStorage.getItem("user"));
-//     if (user.isAdmin) {
-//       return true;
-//     } else {
-//       return false;
-//     }
-//   }
   function editClick() {
     const vacation = props.item;
-    // localStorage.setItem("vacation", JSON.stringify(vacation));
     navigate(`/vacation/${props.item._id}/edit`);
   }
 
@@ -35,11 +30,20 @@ function Card(props: CardProps): JSX.Element {
 
     // navigate(`/vacation/${props.item._id}/delete`);
   }
+
   function imageAnalysis(picturePath: string, id: string) {
     if (picturePath && picturePath.startsWith("http")) {
       return picturePath;
     } else {
       return appConfig.vacationUrl + id + "/image";
+    }
+  }
+  function likeFnc(id: string, liked: boolean) {
+    // const userId = decodedToken.id;
+    if (liked) {
+      //   const favRemove = userService.favRemove(id, decodedToken.id);
+    } else {
+      //   const favAdd = userService.favAdd(id, decodedToken.id);
     }
   }
   return (
@@ -67,37 +71,46 @@ function Card(props: CardProps): JSX.Element {
           backgroundColor: "rgba(0, 0, 0, 0.3)", // Adjust the opacity here (0.5 for 50% opacity)
         }}
       ></div>
-      <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
-        Place: {props.item.place}
-      </span>
-      <br />
-      <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
-        Description: {props.item.description}
-      </span>
-      <br />
-      <br />
-      <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
-        Start Date: {startDate}
-      </span>
-      <br />
-      <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
-        End Date: {endDate}
-      </span>
-      <br />
-      <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
-        Price: {props.item.price}$
-      </span>
-      <br />
       {!isAdmin() ? (
-        props.fav ? (
-          <button>Follow</button>
-        ) : null
+        <span
+          className={props.fav ? "heart Liked" : "heart"}
+          title="Like"
+          onClick={(e) => likeFnc(props.item._id, props.fav)}
+        >
+          ❤
+        </span>
       ) : (
-        <div className="adminMenu" style={{ position: "relative", zIndex: 1 }}>
-          <button onClick={editClick}>Edit</button>
-          <button onClick={deleteClick}>Delete</button>
+        <div className="adminMenu" style={{ position: "relative", zIndex: 5 }}>
+          <span onClick={editClick} className="adminButton">
+            📃
+          </span>
+          <span onClick={deleteClick} className="adminButton">
+            ❌
+          </span>
         </div>
       )}
+      <div className="textContainer">
+        <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
+          Place: {props.item.place}
+        </span>
+        <br />
+        <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
+          Description: {props.item.description}
+        </span>
+        <br />
+        <br />
+        <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
+          Start Date: {startDate}
+        </span>
+        <br />
+        <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
+          End Date: {endDate}
+        </span>
+        <br />
+        <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
+          Price: {props.item.price}$
+        </span>
+      </div>
     </div>
   );
 }
