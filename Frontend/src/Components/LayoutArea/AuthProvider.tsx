@@ -1,8 +1,6 @@
+import jwt_decode from "jwt-decode";
 import React, { createContext, useContext, useState } from "react";
 import userService from "../../Services/UserService";
-import { useNavigate } from "react-router";
-import UserModel from "../../Models/UserModel";
-import jwt_decode from "jwt-decode";
 
 interface AuthContextType {
   token: string | null;

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-no-target-blank */
 import React, { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthProvider";
@@ -74,13 +75,7 @@ function Menu(menuProps: MenuProps): JSX.Element {
                 <MenuLink className="menuUserItem " to="/vacation/create">
                   Vacation
                 </MenuLink>
-              ) : (
-                <>
-                  <MenuLink className="menuUserItem" to="/favorites">
-                    Followed
-                  </MenuLink>
-                </>
-              )}
+              ) : null}
               <MenuLink className="menuUserItem" to="/profile">
                 Profile
               </MenuLink>

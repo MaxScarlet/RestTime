@@ -3,14 +3,13 @@ import CredentialsModel from "../3-models/credential-model";
 import UserModel, { UserDoc, UserSchema } from "../3-models/user-model";
 
 export default class UserService {
-  private modelMongo;
-
-  constructor() {
-    this.modelMongo = mongoose.model<UserDoc>("User", UserSchema, "Users");
-  }
+  constructor(
+    public modelMongo = mongoose.model<UserDoc>("User", UserSchema, "Users")
+  ) {}
 
   public getAllUsers = async (): Promise<UserModel[]> => {
-    return await this.modelMongo.find();
+    const users = await this.modelMongo.find();
+    return users;
   };
 
   public getUserById = async (userId: string): Promise<UserModel> => {

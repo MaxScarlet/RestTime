@@ -6,8 +6,8 @@ class VacationModel {
   public endDate: Date;
   public price: number;
   public _id: string;
-  
-  //Check URI module/package
+  public isDisabled: boolean;
+
   public picturePath: string;
 
   constructor() {

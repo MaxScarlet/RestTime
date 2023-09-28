@@ -1,5 +1,4 @@
 import { Schema } from "mongoose";
-import FavoriteModel from "./favorite-model";
 
 interface UserModel {
   userId: string;

@@ -1,7 +1,12 @@
 {
-    "compilerOptions": {
-        "target": "ES6",
-        "esModuleInterop": true,
-        "moduleResolution": "node"
-    }
+  "compilerOptions": {
+    "target": "ES6",
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "types": ["node", "jest"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts",
+  ]
 }

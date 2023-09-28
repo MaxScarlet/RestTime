@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import UserModel from "../../../Models/UserModel";
 import vacationModel from "../../../Models/VacationModel";
@@ -10,17 +11,22 @@ function List(): JSX.Element {
   const [items, setList] = useState<vacationModel[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [selectedSort, setSelectedSort] = useState<string>("default"); // Default sorting option
+  const [refresh, setRefresh] = useState(false);
   const itemsPerPage: number = 9;
   const userInfo = JSON.parse(localStorage.getItem("user")) as UserModel;
   const favsIds = userInfo.favorites;
 
   useEffect(() => {
-    showList();
-  }, [currentPage, selectedSort]); // Re-fetch data when currentPage changes
+    showList()
+      .then(() => {
+        setRefresh(false);
+      })
+      .catch(() => {});
+  }, [currentPage, selectedSort, refresh]);
 
   async function showList() {
     try {
-      let dbItems: vacationModel[] = await vacationService.getAll();
+      let dbItems: vacationModel[] = await vacationService.getAll(userInfo.isAdmin);
 
       // Sort the items based on the selectedSort
       dbItems = dbItems.sort(sortItems);
@@ -30,28 +36,37 @@ function List(): JSX.Element {
       notifyService.error(err);
     }
   }
-
+  //Start of pagination
   const indexOfLastItem: number = currentPage * itemsPerPage;
   const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;
-
   const itemsOnPage: vacationModel[] = items.slice(
     indexOfFirstItem,
     indexOfLastItem
   );
-
   const totalPages: number = Math.ceil(items.length / itemsPerPage);
-
   function nextPage() {
     setCurrentPage((prevPage) => Math.min(prevPage + 1, totalPages));
   }
-
   function prevPage() {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   }
+  //End of pagination
 
+  //Start favorite handle
   function isFav(item: vacationModel) {
     return favsIds.includes(item._id);
   }
+  function refreshList(vacationId?: string): void {
+    if (userInfo.favorites.includes(vacationId)) {
+      const index = userInfo.favorites.indexOf(vacationId, 0);
+      userInfo.favorites.splice(index, 1);
+    } else {
+      userInfo.favorites.push(vacationId);
+    }
+    localStorage.setItem("user", JSON.stringify(userInfo));
+    setRefresh(true);
+  }
+  //End favorite handle
 
   // Sorting function
   const sortItems = (a: vacationModel, b: vacationModel) => {
@@ -82,12 +97,16 @@ function List(): JSX.Element {
         <option value="priceHtL">Sort by Price (Higher to Lower)</option>
         <option value="priceLtH">Sort by Price (Lower to Higher)</option>
         <option value="favorites">Sort by Favorites</option>
-        <option value="favorites">Sort by Favorites</option>
         {/* Add more sorting options as needed */}
       </select>
       <div className="List">
         {itemsOnPage.map((item) => (
-          <Card key={item._id} item={item} fav={isFav(item)} />
+          <Card
+            key={item._id}
+            item={item}
+            fav={isFav(item)}
+            refresh={() => refreshList(item._id)}
+          />
         ))}
         <div className="pagination">
           <button onClick={prevPage} disabled={currentPage === 1}>

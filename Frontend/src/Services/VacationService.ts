@@ -1,11 +1,17 @@
 import axios from "axios";
 import vacationModel from "../Models/VacationModel";
 import appConfig from "../Utils/AppConfig";
+import { useAuth } from "../../src/Components/LayoutArea/AuthProvider";
 
 const mainUrl = appConfig.vacationUrl;
+
 class VacationService {
-  public async getAll() {
-    const response = await axios.get<vacationModel[]>(mainUrl);
+  public async getAll(isAdmin: boolean) {
+    const response = await axios.get<vacationModel[]>(mainUrl, {
+      headers: {
+        "x-resttime-isadmin": `${isAdmin}`, // Set the content type to multipart/form-data
+      },
+    });
     const item = response.data;
     return item;
   }
@@ -14,6 +20,11 @@ class VacationService {
     const response = await axios.get<any>(mainUrl + id);
     const item = response.data;
     return item;
+  }
+
+  public async toggleVacation(id: string) {
+    const response = await axios.delete<any>(mainUrl + id);
+    return true;
   }
 
   public async getFavs(ids: string[]) {

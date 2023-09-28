@@ -28,7 +28,7 @@ router.get(
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const users = await service.getAllUsers();
-      response.json(users);
+      response.json(users).status(200);
     } catch (err: any) {
       response.sendStatus(StatusCode.NotFound);
     }
@@ -65,7 +65,7 @@ router.get(
     try {
       const users = await service.getUserById(request.params.id);
 
-      response.json(users);
+      response.json(users).status(200);
     } catch (err: any) {
       response.sendStatus(StatusCode.NotFound);
     }
@@ -197,7 +197,7 @@ router.put(
  *         description: User or vacation not found
  */
 router.put(
-  "/:id/favorites/:vacationId",
+  "/:id/favorites/:vacationId/follow",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
       const userId = request.params.id;
@@ -208,6 +208,7 @@ router.put(
         user.favorites.push(vacationId);
       }
       user = await service.updateUserById(userId, user);
+      console.log(user);
 
       response.json(user);
     } catch (err: any) {
@@ -255,6 +256,7 @@ router.delete(
         user.favorites.splice(index, 1);
       }
       user = await service.updateUserById(userId, user);
+      console.log(user);
 
       response.json(user);
     } catch (err: any) {

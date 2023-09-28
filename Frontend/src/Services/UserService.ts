@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios from "axios";
 import { createContext } from "react";
 import CredentialsModel from "../Models/CredentialModel";
@@ -45,19 +46,14 @@ class UserService {
   }
 
   public async favRemove(vacationId: string, userId: string) {
-    console.log("Unfollow", vacationId);
-    console.log("userId", userId);
-
     const response = await axios.delete<any>(
       mainUrl + userId + "/favorites/" + vacationId
     );
     return response.data;
   }
   public async favAdd(vacationId: string, userId: string) {
-    console.log("Follow", vacationId);
-    console.log("userId", userId);
     const response = await axios.put<any>(
-      mainUrl + userId + "/favorites/" + vacationId
+      mainUrl + userId + "/favorites/" + vacationId + "/follow/"
     );
     return response.data;
   }

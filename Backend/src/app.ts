@@ -1,6 +1,6 @@
 import express from "express";
-import swaggerJSDoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
 import cors from "cors";
 import expressFileUpload from "express-fileupload";
 import appConfig from "./2-utils/app-config";
@@ -35,7 +35,7 @@ const swaggerOptions = {
 };
 
 const swaggerSpec = swaggerJSDoc(swaggerOptions);
-server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+server.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 server.use("/api/user", userController);
 server.use("/api/vacations", vacationController);
@@ -43,6 +43,11 @@ server.use("/api/reports", reportsController);
 server.use(routeNotFound);
 server.use(catchAll);
 
-server.listen(appConfig.port, () =>
+const httpServer = server.listen(appConfig.port, () =>
   console.log("Listening on http://localhost:" + appConfig.port)
 );
+
+export default {
+  server,
+  httpServer,
+};

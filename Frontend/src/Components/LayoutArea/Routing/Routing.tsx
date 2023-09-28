@@ -4,7 +4,6 @@ import Login from "../../DataArea/Login/Login";
 import SignUp from "../../DataArea/SignUp/SignUp";
 import About from "../../HomeArea/About/About";
 import EditVacation from "../../HomeArea/EditVacation/EditVacation";
-import Favorites from "../../HomeArea/Favorites/Favorites";
 import Home from "../../HomeArea/Home/Home";
 import Profile from "../../HomeArea/Profile/Profile";
 import { useAuth } from "../AuthProvider";
@@ -44,12 +43,7 @@ function Routing(): JSX.Element {
             <Route path="/vacation/:id/edit" element={<EditVacation />} />
             <Route path="/vacation/create" element={<EditVacation />} />
           </>
-        ) : (
-          <>
-            <Route path="/favorites" element={<Favorites />} />
-            {/* <Route path="/vacation/:id" element={<CreateVacation />} /> */}
-          </>
-        )}
+        ) : null}
       </Route>
 
       <Route path="/unauthorizedPage" element={<UnauthorizedPage />} />

@@ -6,6 +6,20 @@
   border: none;
   cursor: pointer;
 }
+
+.Card {
+  display: flex;
+  flex-direction: row;
+  width: 300px;
+  height: 500px;
+}
+
+.itemList > .cardList {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+
 .infoSpan {
   color: white;
 }
@@ -44,4 +58,10 @@ a:hover {
   float: left;
   position: relative;
   top: -10px;
+}
+.cardContainer {
+  width: 100%;
+  height: 100%;
+  margin-top: 10px;
+  padding: 10px 20px 10px 20px;
 }

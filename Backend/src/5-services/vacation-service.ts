@@ -14,8 +14,12 @@ export default class VacationService {
       "Vacations"
     );
   }
-  public getAllVacations = async (): Promise<VacationModel[]> => {
-    return await this.modelMongo.find();
+  public getAllVacations = async (
+    isAdmin: boolean = false
+  ): Promise<VacationModel[]> => {
+    const filter = { isDisabled: { $in: [null, false] } };
+
+    return await this.modelMongo.find(isAdmin ? null : filter);
   };
 
   public async getFavorites(ids: string[]): Promise<VacationModel[]> {
@@ -47,13 +51,9 @@ export default class VacationService {
       ? await imageHelper.saveImage(vacation.picture, vacationId)
       : "";
     vacation.picturePath = "";
-    return await this.modelMongo.findByIdAndUpdate(
-      vacationId,
-      vacation,
-      {
-        new: true,
-      }
-    );
+    return await this.modelMongo.findByIdAndUpdate(vacationId, vacation, {
+      new: true,
+    });
   };
   public getVacationById = async (vacationId: string) => {
     return await this.modelMongo.findById(vacationId);
@@ -61,6 +61,8 @@ export default class VacationService {
 
   // Delete a vacation by ID
   public deleteVacationById = async (vacationId: string) => {
-    return await this.modelMongo.findByIdAndRemove(vacationId);
+    const vacation = await this.modelMongo.findById(vacationId);
+    vacation.isDisabled = !vacation.isDisabled;
+    return await this.modelMongo.findByIdAndUpdate(vacationId, vacation);
   };
 }

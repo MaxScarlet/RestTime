@@ -13,8 +13,8 @@ function Login(): JSX.Element {
   //const { register, handleSubmit, formState } = useForm<UserModel>();
   const { login } = useAuth();
 
-  const [email, setEmail] = useState("maxim@gmail.com");
-  const [password, setPassword] = useState("1234567");
+  const [email, setEmail] = useState("maxim.kulik99@gmail.com");
+  const [password, setPassword] = useState("123123");
 
   const navigate = useNavigate();
 

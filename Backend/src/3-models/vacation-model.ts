@@ -9,7 +9,7 @@ interface VacationModel {
   startDate: Date;
   endDate: Date;
   price: number;
-
+  isDisabled: boolean;
   picturePath: string;
   picture: UploadedFile;
 }
@@ -51,5 +51,10 @@ export const VacationSchema: Schema = new Schema({
   picturePath: {
     type: String,
     required: false,
+  },
+  isDisabled: {
+    type: Boolean,
+    required: false,
+    default: false,
   },
 });

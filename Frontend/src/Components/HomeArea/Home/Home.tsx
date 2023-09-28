@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
-import "./Home.css";
 import appConfig from "../../../Utils/AppConfig";
-import userService from "../../../Services/UserService";
+import "./Home.css";
 
 function Home(): JSX.Element {
   const dbName = appConfig.WebSiteName;

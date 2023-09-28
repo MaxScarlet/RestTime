@@ -26,7 +26,11 @@ router.get(
   "/",
   async (request: Request, response: Response, next: NextFunction) => {
     try {
-      const vacations = await service.getAllVacations();
+      const isAdmin = request.headers["x-resttime-isadmin"] as string;
+      const vacations = await service.getAllVacations(
+        isAdmin.toLowerCase() === "true"
+      );
+      //TODO: filter by user roles
       response.json(vacations);
     } catch (err: any) {
       next(err);
@@ -46,7 +50,7 @@ router.get(
  *         description: ID of the vacation to retrieve
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *     responses:
  *       200:
  *         description: Success, returns the vacation details
@@ -155,7 +159,7 @@ router.post(
  *         description: ID of the vacation to update
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -203,7 +207,7 @@ router.put(
  *         description: ID of the vacation to delete
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *     responses:
  *       204:
  *         description: Success, the vacation has been deleted
@@ -239,7 +243,7 @@ router.delete(
  *         description: ID of the vacation to update
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -287,7 +291,7 @@ router.put(
  *         description: ID of the vacation to retrieve the image for
  *         required: true
  *         schema:
- *           type: integer
+ *           type: string
  *     responses:
  *       200:
  *         description: Success, returns the vacation's image

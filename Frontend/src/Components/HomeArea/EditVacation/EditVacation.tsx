@@ -16,12 +16,10 @@ function EditVacation(): JSX.Element {
     vacationService
       .getInfo(params.id)
       .then((vacation) => {
-        // console.log(vacation);
         setVacation(vacation);
         setLoading(false);
       })
       .catch((error) => {
-        console.log("Error getting vacation", error);
         setLoading(false);
       });
   }
@@ -59,13 +57,10 @@ function EditVacation(): JSX.Element {
       let response;
       
       if (id) {
-        console.log("editVacation");
         response = await vacationService.editVacation(vacation, id);
       } else {
-        console.log("addVacation");
         response = await vacationService.addVacation(vacation);
       }
-      console.log(response);
     } catch (error) {
       notifyService.error(error);
     }
