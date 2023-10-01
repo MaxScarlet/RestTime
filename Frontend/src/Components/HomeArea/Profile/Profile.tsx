@@ -30,7 +30,6 @@ const Profile: React.FC = () => {
 
   async function showList() {
     try {
-      //Work with dbItems
       const dbItems = await vacationService.getFavs(favsIds);
       setList(dbItems);
     } catch (err) {
@@ -47,8 +46,6 @@ const Profile: React.FC = () => {
     localStorage.setItem("user", JSON.stringify(lclUser));
     setRefresh(true);
   }
-
-  //   return !token ? null : (
   return (
     <div>
       <h2>User Profile</h2>

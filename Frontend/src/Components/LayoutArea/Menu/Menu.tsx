@@ -62,7 +62,6 @@ function Menu(menuProps: MenuProps): JSX.Element {
 
         <div className="menuUser">
           {token ? (
-            //Wrap in JSX fragment
             <>
               <a
                 target="_blank"
@@ -84,7 +83,6 @@ function Menu(menuProps: MenuProps): JSX.Element {
               </MenuLink>
             </>
           ) : (
-            //Wrap in JSX fragment
             <>
               <MenuLink className="menuUserItem" to="/signup">
                 Sign Up

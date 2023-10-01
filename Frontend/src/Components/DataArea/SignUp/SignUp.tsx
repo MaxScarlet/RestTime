@@ -7,10 +7,10 @@ import userService from "../../../Services/UserService";
 import UserModel from "../../../Models/UserModel";
 
 function SignUp(): JSX.Element {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>();
+  const [firstName, setFirstName] = useState<string>();
+  const [lastName, setLastName] = useState<string>();
 
   const navigate = useNavigate();
 
@@ -41,6 +41,7 @@ function SignUp(): JSX.Element {
               placeholder="Enter your First Name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
+              required
             />
           </div>
           <div className="form-group">
@@ -50,6 +51,7 @@ function SignUp(): JSX.Element {
               placeholder="Enter your Last Name"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
+              required
             />
           </div>
           <div className="form-group">
@@ -59,6 +61,8 @@ function SignUp(): JSX.Element {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+              required
             />
           </div>
           <div className="form-group">
@@ -68,6 +72,8 @@ function SignUp(): JSX.Element {
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              minLength={4} // Require a minimum length of 4 characters
+              required
             />
           </div>
           <button type="button" onClick={handleSignUp} className="login-button">

@@ -17,6 +17,8 @@ class MockUserModel implements UserModel {
   constructor(name: string, rndNumber: number) {
     this.firstName = "fn" + name + " " + rndNumber;
     this.lastName = "ln" + name + " " + rndNumber;
+    this.email = "email: " + name + rndNumber + "@gmail.com ";
+    this.password = "pwd: " + rndNumber + "" + name + "" + rndNumber;
   }
 }
 const newEntity = { name: "User", id: 1 };
@@ -26,24 +28,23 @@ const testUser = new MockUserModel(newEntity.name, newEntity.id);
 describe("User Service", () => {
   afterEach(() => jest.resetAllMocks());
 
-  //   describe("Create M2M", () => {
-  //     const newMachine = newEntity as MockUserModel;
-  //     test("M2M created successfully", async () => {
-  //       testUser.name = newEntity.name;
-  //       mongoMock.CreateClient.mockReturnValue(Promise.resolve(testUser));
-  //       mongoMock.CreateClientGrant.mockReturnValue(Promise.resolve(true));
-  //       const machine: Machine = await userService.Create(newMachine);
-  //       expect(machine.name).toEqual(testUser.name);
-  //       expect(machine.clientId).toBeDefined();
-  //       expect(machine.clientId).toEqual(testUser.clientId);
-  //     });
+  //   describe("Create User", () => {
+  //     test("User created successfully", async () => {
+  //       const newEntity = {
+  //         name: "John Doe",
+  //         id: "12345",
+  //       };
 
-  //     test("Failed to create M2M", async () => {
-  //       mongoMock.CreateClient.mockReturnValue(
-  //         Promise.resolve({ name: newEntity.name })
-  //       );
-  //       mongoMock.CreateClientGrant.mockReturnValue(Promise.resolve(false));
-  //       await expect(userService.Create(newMachine)).rejects.toThrow("Empty");
+  //       const user = new MockUserModel(newEntity.name, newEntity.id);
+
+  //       const saveMock = jest
+  //         .spyOn(userService.modelMongo.prototype, "save")
+  //         .mockResolvedValue(user);
+
+  //       const result = await userService.createUser(newEntity);
+
+  //       const allUsers = await userService.getAllUsers();
+  //       expect(allUsers.length).toBe(3);
   //     });
   //   });
 
@@ -82,7 +83,7 @@ describe("User Service", () => {
   });
 
   describe("Get User by Id", () => {
-    test("User returned successfully", async () => {
+    test("[Positive] User returned successfully", async () => {
       const findMock = jest
         .spyOn(userService.modelMongo, "findById")
         .mockResolvedValue(testUser);
@@ -99,7 +100,7 @@ describe("User Service", () => {
       expect(result).toBeUndefined();
     });
   });
-  describe("User Log in", () => {
+  describe("[Positive] User Log in", () => {
     test("User Logged in successfully", async () => {
       testUser.email = "test@gmail.com";
       testUser.password = "123123";

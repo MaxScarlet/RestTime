@@ -43,19 +43,13 @@ function EditVacation(): JSX.Element {
     }
   }, []);
 
-  // Outside of useEffect, check if params.id exists and set vacation accordingly
-  //   if (!params.id) {
-  //     setVacation(new VacationModel());
-  //     setLoading(false);
-  //   }
-
   const navigate = useNavigate();
 
   async function handleVacation(vacation: any) {
     try {
       const id = params.id;
       let response;
-      
+
       if (id) {
         response = await vacationService.editVacation(vacation, id);
       } else {
@@ -122,6 +116,7 @@ function EditVacation(): JSX.Element {
                 name="price"
                 min={0}
                 step={0.01}
+                max={10000}
                 placeholder="Enter price of vacation"
                 defaultValue={vacation.price}
                 {...register("price")}
@@ -134,7 +129,7 @@ function EditVacation(): JSX.Element {
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 position: "relative",
-                height: "150px", // Ensure the container is a positioned element
+                height: "150px",
               }}
             >
               <input

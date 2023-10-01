@@ -10,7 +10,6 @@ import React from "react";
 import { useAuth } from "../../LayoutArea/AuthProvider";
 
 function Login(): JSX.Element {
-  //const { register, handleSubmit, formState } = useForm<UserModel>();
   const { login } = useAuth();
 
   const [email, setEmail] = useState("maxim.kulik99@gmail.com");
@@ -19,7 +18,6 @@ function Login(): JSX.Element {
   const navigate = useNavigate();
 
   async function handleLogin() {
-    //credentials: CredentialsModel
     try {
       const loginToken = await login(email, password);
       navigate("/profile");
@@ -40,6 +38,8 @@ function Login(): JSX.Element {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+              required
             />
           </div>
           <div className="form-group">
@@ -48,7 +48,10 @@ function Login(): JSX.Element {
               type="password"
               placeholder="Enter your password"
               value={password}
+              minLength={4}
               onChange={(e) => setPassword(e.target.value)}
+              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{4,}$"
+              required
             />
           </div>
           <button type="button" onClick={handleLogin} className="login-button">
@@ -58,7 +61,7 @@ function Login(): JSX.Element {
         <p>
           Don't have an account? <Link to="/signup">Sign Up</Link>
         </p>
-      </div>{" "}
+      </div>
     </div>
   );
 }

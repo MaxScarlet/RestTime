@@ -9,7 +9,7 @@ class VacationService {
   public async getAll(isAdmin: boolean) {
     const response = await axios.get<vacationModel[]>(mainUrl, {
       headers: {
-        "x-resttime-isadmin": `${isAdmin}`, // Set the content type to multipart/form-data
+        "x-resttime-isadmin": `${isAdmin}`, // Send token via headers using custom header
       },
     });
     const item = response.data;

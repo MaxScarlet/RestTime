@@ -14,6 +14,8 @@ export default class VacationService {
       "Vacations"
     );
   }
+
+  //Get all vacations
   public getAllVacations = async (
     isAdmin: boolean = false
   ): Promise<VacationModel[]> => {
@@ -22,6 +24,7 @@ export default class VacationService {
     return await this.modelMongo.find(isAdmin ? null : filter);
   };
 
+  //Get favorites by ids
   public async getFavorites(ids: string[]): Promise<VacationModel[]> {
     const objIds = [];
     ids.forEach((id) => {
@@ -42,7 +45,7 @@ export default class VacationService {
     return response;
   }
 
-  // Update a vacation by ID
+  //Update a vacation by ID with image handle
   public updateVacationById = async (
     vacationId: string,
     vacation: VacationModel
@@ -55,6 +58,8 @@ export default class VacationService {
       new: true,
     });
   };
+
+  //Get vacation by id
   public getVacationById = async (vacationId: string) => {
     return await this.modelMongo.findById(vacationId);
   };

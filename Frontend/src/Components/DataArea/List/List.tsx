@@ -8,13 +8,13 @@ import Card from "../Card/Card";
 import "./List.css";
 
 function List(): JSX.Element {
-  const [items, setList] = useState<vacationModel[]>([]);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [items, setList] = useState<vacationModel[]>([]); //Set item list
+  const [currentPage, setCurrentPage] = useState<number>(1); //Set current page for pagination
   const [selectedSort, setSelectedSort] = useState<string>("default"); // Default sorting option
-  const [refresh, setRefresh] = useState(false);
-  const itemsPerPage: number = 9;
-  const userInfo = JSON.parse(localStorage.getItem("user")) as UserModel;
-  const favsIds = userInfo.favorites;
+  const [refresh, setRefresh] = useState(false); //Set refresh state for the cards
+  const itemsPerPage: number = 9; //Set the amount of cards per page
+  const userInfo = JSON.parse(localStorage.getItem("user")) as UserModel; //Getting userInfo from lclStorage
+  const favsIds = userInfo.favorites; //FavsIds array
 
   useEffect(() => {
     showList()
@@ -24,9 +24,12 @@ function List(): JSX.Element {
       .catch(() => {});
   }, [currentPage, selectedSort, refresh]);
 
+  //Function to show all cards in the list provided from API
   async function showList() {
     try {
-      let dbItems: vacationModel[] = await vacationService.getAll(userInfo.isAdmin);
+      let dbItems: vacationModel[] = await vacationService.getAll(
+        userInfo.isAdmin
+      );
 
       // Sort the items based on the selectedSort
       dbItems = dbItems.sort(sortItems);
@@ -36,6 +39,7 @@ function List(): JSX.Element {
       notifyService.error(err);
     }
   }
+
   //Start of pagination
   const indexOfLastItem: number = currentPage * itemsPerPage;
   const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;
@@ -69,7 +73,7 @@ function List(): JSX.Element {
   //End favorite handle
 
   // Sorting function
-  const sortItems = (a: vacationModel, b: vacationModel) => {
+  const sortItems = (a: vacationModel, b: vacationModel): number => {
     switch (selectedSort) {
       case "place":
         return a.place.localeCompare(b.place);
@@ -79,11 +83,33 @@ function List(): JSX.Element {
         return a.price - b.price;
       case "favorites":
         return isFav(a) ? -1 : 1;
+      case "notStartedYet":
+        const currentDate = new Date();
+        const aStartDate = new Date(a.startDate);
+        const bStartDate = new Date(b.startDate);
+        return aStartDate > currentDate ? -1 : bStartDate > currentDate ? 1 : 0;
+      case "currentlyActive":
+        const currentDateTime = new Date();
+        const aStartDateAndTime = new Date(a.startDate);
+        const aEndDateAndTime = new Date(a.endDate);
+        const bStartDateAndTime = new Date(b.startDate);
+        const bEndDateAndTime = new Date(b.endDate);
+
+        const aIsActive =
+          currentDateTime >= aStartDateAndTime &&
+          currentDateTime <= aEndDateAndTime;
+        const bIsActive =
+          currentDateTime >= bStartDateAndTime &&
+          currentDateTime <= bEndDateAndTime;
+
+        return aIsActive ? -1 : bIsActive ? 1 : 0;
       default:
-        return 0;
+        // Sort by startDate in ascending order
+        const aStartDateSort = new Date(a.startDate);
+        const bStartDateSort = new Date(b.startDate);
+        return aStartDateSort.getTime() - bStartDateSort.getTime();
     }
   };
-
   return (
     <div>
       {/* Selection box for sorting */}
@@ -94,9 +120,11 @@ function List(): JSX.Element {
       >
         <option value="default">Default Sorting</option>
         <option value="place">Sort by Name</option>
+        <option value="currentlyActive">Currently active</option>
+        <option value="notStartedYet">Not Started Yet</option>
+        <option value="favorites">Sort by Favorites</option>
         <option value="priceHtL">Sort by Price (Higher to Lower)</option>
         <option value="priceLtH">Sort by Price (Lower to Higher)</option>
-        <option value="favorites">Sort by Favorites</option>
         {/* Add more sorting options as needed */}
       </select>
       <div className="List">

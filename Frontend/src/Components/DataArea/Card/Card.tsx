@@ -14,7 +14,6 @@ interface CardProps {
   item: VacationModel;
   fav: boolean;
   refresh: (vacationId: string) => void;
-  //   deleteMe: (giftId: number) => void;
 }
 
 function Card(props: CardProps): JSX.Element {
@@ -22,14 +21,9 @@ function Card(props: CardProps): JSX.Element {
   const endDate = new Date(props.item.endDate).toLocaleDateString();
   const params = useParams();
 
-  //   const [item, setItem] = useState<VacationCard>(props.item);
   const navigate = useNavigate();
   const { token, logout, isAdmin } = useAuth();
   const decodedToken: any = jwt_decode(token);
-
-  //   useEffect(() => {
-  //     setItem(item);
-  //   }, []);
 
   function editClick() {
     const vacation = props.item;
@@ -67,7 +61,7 @@ function Card(props: CardProps): JSX.Element {
         )})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        position: "relative", // Ensure the container is a positioned element
+        position: "relative",
       }}
     >
       {/* Semi-transparent overlay */}
@@ -79,7 +73,7 @@ function Card(props: CardProps): JSX.Element {
           width: "100%",
           height: "100%",
           zIndex: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.3)", // Adjust the opacity here (0.5 for 50% opacity)
+          backgroundColor: "rgba(0, 0, 0, 0.3)",
         }}
       ></div>
       {!isAdmin() ? (

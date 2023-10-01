@@ -7,11 +7,13 @@ export default class UserService {
     public modelMongo = mongoose.model<UserDoc>("User", UserSchema, "Users")
   ) {}
 
+  //Get all users
   public getAllUsers = async (): Promise<UserModel[]> => {
     const users = await this.modelMongo.find();
     return users;
   };
 
+  //Get user by id 
   public getUserById = async (userId: string): Promise<UserModel> => {
     return await this.modelMongo.findById(userId);
   };
@@ -30,6 +32,8 @@ export default class UserService {
       throw new Error(error.message);
     }
   };
+
+  //Login function
   public async login(credentials: CredentialsModel): Promise<UserModel> {
     return await this.modelMongo.findOne(credentials);
   }
