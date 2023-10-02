@@ -9,6 +9,7 @@ import Profile from "../../HomeArea/Profile/Profile";
 import { useAuth } from "../AuthProvider";
 import PageNotFound from "../PageNotFound/PageNotFound";
 import UnauthorizedPage from "../UnauthorizedPage/UnauthorizedPage";
+import Chart from "../../DataArea/Chart/Chart";
 
 const ProtectedRoute = ({ redirectPath = "/login" }) => {
   const token = useAuth().token;
@@ -42,6 +43,7 @@ function Routing(): JSX.Element {
           <>
             <Route path="/vacation/:id/edit" element={<EditVacation />} />
             <Route path="/vacation/create" element={<EditVacation />} />
+            <Route path="/chart" element={<Chart />} />
           </>
         ) : null}
       </Route>

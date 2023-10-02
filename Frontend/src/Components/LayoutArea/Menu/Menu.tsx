@@ -71,9 +71,14 @@ function Menu(menuProps: MenuProps): JSX.Element {
                 <img src={image} alt="Swagger" title="Swagger" />
               </a>
               {isAdmin() ? (
-                <MenuLink className="menuUserItem " to="/vacation/create">
-                  Vacation
-                </MenuLink>
+                <>
+                  <MenuLink className="menuUserItem " to="/vacation/create">
+                    Vacation
+                  </MenuLink>
+                  <MenuLink className="menuUserItem " to="/chart">
+                    Chart
+                  </MenuLink>
+                </>
               ) : null}
               <MenuLink className="menuUserItem" to="/profile">
                 Profile

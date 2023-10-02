@@ -10,7 +10,7 @@ import "./List.css";
 function List(): JSX.Element {
   const [items, setList] = useState<vacationModel[]>([]); //Set item list
   const [currentPage, setCurrentPage] = useState<number>(1); //Set current page for pagination
-  const [selectedSort, setSelectedSort] = useState<string>("default"); // Default sorting option
+  const [selectedSort, setSelectedSort] = useState<string>("default");
   const [refresh, setRefresh] = useState(false); //Set refresh state for the cards
   const itemsPerPage: number = 9; //Set the amount of cards per page
   const userInfo = JSON.parse(localStorage.getItem("user")) as UserModel; //Getting userInfo from lclStorage
@@ -75,12 +75,6 @@ function List(): JSX.Element {
   // Sorting function
   const sortItems = (a: vacationModel, b: vacationModel): number => {
     switch (selectedSort) {
-      case "place":
-        return a.place.localeCompare(b.place);
-      case "priceHtL":
-        return b.price - a.price;
-      case "priceLtH":
-        return a.price - b.price;
       case "favorites":
         return isFav(a) ? -1 : 1;
       case "notStartedYet":
@@ -107,26 +101,58 @@ function List(): JSX.Element {
         // Sort by startDate in ascending order
         const aStartDateSort = new Date(a.startDate);
         const bStartDateSort = new Date(b.startDate);
-        return aStartDateSort.getTime() - bStartDateSort.getTime();
+        return aStartDateSort.getDate() - bStartDateSort.getDate();
     }
   };
+
+  const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedSort(event.target.value);
+  };
+
   return (
     <div>
-      {/* Selection box for sorting */}
-      <select
-        value={selectedSort}
-        onChange={(e) => setSelectedSort(e.target.value)}
-        className="selectList"
-      >
-        <option value="default">Default Sorting</option>
-        <option value="place">Sort by Name</option>
-        <option value="currentlyActive">Currently active</option>
-        <option value="notStartedYet">Not Started Yet</option>
-        <option value="favorites">Sort by Favorites</option>
-        <option value="priceHtL">Sort by Price (Higher to Lower)</option>
-        <option value="priceLtH">Sort by Price (Lower to Higher)</option>
-        {/* Add more sorting options as needed */}
-      </select>
+      <div className="sortDiv">
+        {/* checkBox default */}
+        <label>
+          <input
+            type="radio"
+            value="default"
+            checked={selectedSort === "default"}
+            onChange={handleSortChange}
+          />
+          Default
+        </label>
+        {/* checkBox favorites */}
+        <label>
+          <input
+            type="radio"
+            value="favorites"
+            checked={selectedSort === "favorites"}
+            onChange={handleSortChange}
+          />
+          Sort by favorites
+        </label>
+        {/* checkBox notStartedYet */}
+        <label>
+          <input
+            type="radio"
+            value="notStartedYet"
+            checked={selectedSort === "notStartedYet"}
+            onChange={handleSortChange}
+          />
+          Sort by not started yet
+        </label>
+        {/* checkBox currentlyActive */}
+        <label>
+          <input
+            type="radio"
+            value="currentlyActive"
+            checked={selectedSort === "currentlyActive"}
+            onChange={handleSortChange}
+          />
+          Sort by currently active
+        </label>
+      </div>
       <div className="List">
         {itemsOnPage.map((item) => (
           <Card

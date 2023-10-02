@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Link, useNavigate } from "react-router-dom";
 import "../Login/Login.css";
 import notifyService from "../../../Services/NotifyService";

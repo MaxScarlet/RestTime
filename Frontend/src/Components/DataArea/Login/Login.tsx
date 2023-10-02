@@ -1,13 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
-import { useForm } from "react-hook-form";
-import UserModel from "../../../Models/UserModel";
-import notifyService from "../../../Services/NotifyService";
-import userService from "../../../Services/UserService";
-import CredentialsModel from "../../../Models/CredentialModel";
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState } from "react";
-import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import notifyService from "../../../Services/NotifyService";
 import { useAuth } from "../../LayoutArea/AuthProvider";
+import "./Login.css";
 
 function Login(): JSX.Element {
   const { login } = useAuth();
@@ -38,7 +34,6 @@ function Login(): JSX.Element {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
               required
             />
           </div>
@@ -50,7 +45,6 @@ function Login(): JSX.Element {
               value={password}
               minLength={4}
               onChange={(e) => setPassword(e.target.value)}
-              pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{4,}$"
               required
             />
           </div>
