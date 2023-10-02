@@ -6,12 +6,14 @@ import notifyService from "../../../Services/NotifyService";
 import vacationService from "../../../Services/VacationService";
 import Card from "../Card/Card";
 import "./List.css";
+import { useAuth } from "../../LayoutArea/AuthProvider";
 
 function List(): JSX.Element {
   const [items, setList] = useState<vacationModel[]>([]); //Set item list
   const [currentPage, setCurrentPage] = useState<number>(1); //Set current page for pagination
   const [selectedSort, setSelectedSort] = useState<string>("default");
   const [refresh, setRefresh] = useState(false); //Set refresh state for the cards
+  const { token, logout, isAdmin } = useAuth();
   const itemsPerPage: number = 9; //Set the amount of cards per page
   const userInfo = JSON.parse(localStorage.getItem("user")) as UserModel; //Getting userInfo from lclStorage
   const favsIds = userInfo.favorites; //FavsIds array
@@ -98,7 +100,6 @@ function List(): JSX.Element {
 
         return aIsActive ? -1 : bIsActive ? 1 : 0;
       default:
-        // Sort by startDate in ascending order
         const aStartDateSort = new Date(a.startDate);
         const bStartDateSort = new Date(b.startDate);
         return aStartDateSort.getDate() - bStartDateSort.getDate();
@@ -111,48 +112,50 @@ function List(): JSX.Element {
 
   return (
     <div>
-      <div className="sortDiv">
-        {/* checkBox default */}
-        <label>
-          <input
-            type="radio"
-            value="default"
-            checked={selectedSort === "default"}
-            onChange={handleSortChange}
-          />
-          Default
-        </label>
-        {/* checkBox favorites */}
-        <label>
-          <input
-            type="radio"
-            value="favorites"
-            checked={selectedSort === "favorites"}
-            onChange={handleSortChange}
-          />
-          Sort by favorites
-        </label>
-        {/* checkBox notStartedYet */}
-        <label>
-          <input
-            type="radio"
-            value="notStartedYet"
-            checked={selectedSort === "notStartedYet"}
-            onChange={handleSortChange}
-          />
-          Sort by not started yet
-        </label>
-        {/* checkBox currentlyActive */}
-        <label>
-          <input
-            type="radio"
-            value="currentlyActive"
-            checked={selectedSort === "currentlyActive"}
-            onChange={handleSortChange}
-          />
-          Sort by currently active
-        </label>
-      </div>
+      {isAdmin() ? null : (
+        <div className="sortDiv">
+          {/* checkBox default */}
+          <label>
+            <input
+              type="radio"
+              value="default"
+              checked={selectedSort === "default"}
+              onChange={handleSortChange}
+            />
+            Default
+          </label>
+          {/* checkBox favorites */}
+          <label>
+            <input
+              type="radio"
+              value="favorites"
+              checked={selectedSort === "favorites"}
+              onChange={handleSortChange}
+            />
+            Sort by favorites
+          </label>
+          {/* checkBox notStartedYet */}
+          <label>
+            <input
+              type="radio"
+              value="notStartedYet"
+              checked={selectedSort === "notStartedYet"}
+              onChange={handleSortChange}
+            />
+            Sort by not started yet
+          </label>
+          {/* checkBox currentlyActive */}
+          <label>
+            <input
+              type="radio"
+              value="currentlyActive"
+              checked={selectedSort === "currentlyActive"}
+              onChange={handleSortChange}
+            />
+            Sort by currently active
+          </label>
+        </div>
+      )}
       <div className="List">
         {itemsOnPage.map((item) => (
           <Card

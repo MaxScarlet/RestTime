@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import reportsService from "../../../Services/ReportsService";
 import vacationService from "../../../Services/VacationService";
 import BarChart from "../BarChart/BarChart";
+import { CSVLink } from "react-csv";
 import "./Chart.css";
 
 function Chart(): JSX.Element {
@@ -32,7 +33,6 @@ function Chart(): JSX.Element {
     }
   }
 
-  function downloadCSV() {}
   useEffect(() => {
     fetchData();
   }, []);
@@ -43,6 +43,20 @@ function Chart(): JSX.Element {
       fetchFavNames(ids);
     }
   }, [refresh, favorites]);
+
+  function generateCSVData() {
+    const csvData = [];
+
+    // Push headers
+    csvData.push(["Name", "Followers Count"]);
+
+    // Push data
+    for (let i = 0; i < favName.length; i++) {
+      csvData.push([favName[i].place, data[i]]);
+    }
+
+    return csvData;
+  }
 
   const data = favorites.map((item) => item.count);
   const labels = favName.map((item) => item.place);
@@ -57,7 +71,15 @@ function Chart(): JSX.Element {
             <BarChart data={data} labels={labels} />
           )}
         </div>
-        <button onClick={downloadCSV}>Download to CSV</button>
+        <button>
+          <CSVLink
+            data={generateCSVData()}
+            filename={"chart_data.csv"}
+            className="btn btn-primary"
+          >
+            Export CSV
+          </CSVLink>
+        </button>
       </main>
     </div>
   );
