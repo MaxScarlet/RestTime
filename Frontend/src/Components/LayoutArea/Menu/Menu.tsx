@@ -3,8 +3,6 @@ import React, { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthProvider";
 import "./Menu.css";
-import swaggerImage from "../../../images/swagger-icon.png";
-import logoutImage from "../../../images/logout.png";
 import UserModel from "../../../Models/UserModel";
 import appConfig from "../../../Utils/AppConfig";
 interface MenuProps {
@@ -89,7 +87,11 @@ function Menu(menuProps: MenuProps): JSX.Element {
                 className="menuItem"
                 href={`${appConfig.baseURL}/api-docs/#/`}
               >
-                <img src={swaggerImage} alt="Swagger" title="Swagger" />
+                <img
+                  src="/images/swagger-icon.png"
+                  alt="Swagger"
+                  title="Swagger"
+                />
               </a>
             </>
           ) : (
