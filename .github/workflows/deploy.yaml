@@ -2,6 +2,9 @@ name: Deploy Repo to AWS S3
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
 env:
   #Current Repo name in GitHub
   REPO: ${{ github.repository }}
