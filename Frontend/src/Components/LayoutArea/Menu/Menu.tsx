@@ -6,6 +6,7 @@ import "./Menu.css";
 import swaggerImage from "../../../images/swagger-icon.png";
 import logoutImage from "../../../images/logout.png";
 import UserModel from "../../../Models/UserModel";
+import appConfig from "../../../Utils/AppConfig";
 interface MenuProps {
   to?: string;
   children: ReactNode;
@@ -86,7 +87,7 @@ function Menu(menuProps: MenuProps): JSX.Element {
               <a
                 target="_blank"
                 className="menuItem"
-                href="http://localhost:4040/api-docs/#/"
+                href={`${appConfig.baseURL}/api-docs/#/`}
               >
                 <img src={swaggerImage} alt="Swagger" title="Swagger" />
               </a>
