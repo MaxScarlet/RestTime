@@ -1,0 +1,51 @@
+name: Deploy Repo to AWS S3
+
+on:
+  workflow_dispatch:
+env:
+  #Current Repo name in GitHub
+  REPO: ${{ github.repository }}
+
+  # Variables to gain access to AWS S3 bucket
+  # Github repo -> settings -> secrets and variables
+  x_account: ${{ secrets.AWS_ACCOUNT }}
+  #AWS pre-requisites
+  x_region: "eu-west-1"
+  x_bucket: "max-static.oxymoron-technique.com"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+        #Setup node on runner
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14 # You can specify the version you need
+
+        #Node modules installed
+      - name: Install dependencies
+        run: npm i
+
+        #Static files built
+      - name: Build
+        run: npm run build
+
+      - name: "Configure AWS credentials"
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.x_region }}
+
+      # - name: Sync static files to S3
+      #   run: |
+      #     aws s3 sync ./ s3://${{ env.x_bucket }} --exclude ".github/*" --exclude ".git/*"
+
+      - name: Clean workspace
+        uses: colpal/actions-clean@v1
+        if: ${{ always() }}
