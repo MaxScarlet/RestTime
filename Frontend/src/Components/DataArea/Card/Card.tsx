@@ -9,6 +9,8 @@ import "./Card.css";
 import jwt_decode from "jwt-decode";
 import { useEffect, useState } from "react";
 import vacationService from "../../../Services/VacationService";
+import reportsService from "../../../Services/ReportsService";
+import { report } from "process";
 
 interface CardProps {
   item: VacationModel;
@@ -19,11 +21,29 @@ interface CardProps {
 function Card(props: CardProps): JSX.Element {
   const startDate = new Date(props.item.startDate).toLocaleDateString();
   const endDate = new Date(props.item.endDate).toLocaleDateString();
+  const [favorites, setFavorites] = useState<any[]>([]);
+  const [likeCount, setLikeCount] = useState<number | null>(null);
+  const data = favorites.map((item) => item.count);
+
   const params = useParams();
 
   const navigate = useNavigate();
   const { token, logout, isAdmin } = useAuth();
   const decodedToken: any = jwt_decode(token);
+
+  useEffect(() => {
+    async function fetchLikeCount() {
+      try {
+        const likeCount = await reportsService.getInfo(props.item._id);
+        setLikeCount(likeCount);
+      } catch (error) {
+        console.error("Error fetching like count:", error);
+        setLikeCount(0); // Set a default value in case of an error
+      }
+    }
+
+    fetchLikeCount();
+  }, [props.item._id]);
 
   function editClick() {
     const vacation = props.item;
@@ -50,6 +70,8 @@ function Card(props: CardProps): JSX.Element {
       const favAdd = await userService.favAdd(id, decodedToken.id);
     }
     props.refresh(id);
+    const updatedLikeCount = await reportsService.getInfo(props.item._id);
+    setLikeCount(updatedLikeCount);
   }
   return (
     <div
@@ -82,7 +104,7 @@ function Card(props: CardProps): JSX.Element {
           title="Like"
           onClick={(e) => likeFnc(props.item._id, props.fav)}
         >
-          ❤
+          ❤ {likeCount !== null ? likeCount : "Loading..."}
         </span>
       ) : (
         <div className="adminMenu" style={{ position: "relative", zIndex: 5 }}>

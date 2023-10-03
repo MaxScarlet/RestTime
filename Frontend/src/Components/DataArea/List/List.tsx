@@ -7,6 +7,7 @@ import vacationService from "../../../Services/VacationService";
 import Card from "../Card/Card";
 import "./List.css";
 import { useAuth } from "../../LayoutArea/AuthProvider";
+import reportsService from "../../../Services/ReportsService";
 
 function List(): JSX.Element {
   const [items, setList] = useState<vacationModel[]>([]); //Set item list
@@ -42,6 +43,16 @@ function List(): JSX.Element {
     }
   }
 
+  async function fetchLikes(vacationId: string): Promise<number> {
+    try {
+      const likeCount = await reportsService.getInfo(vacationId);
+      setRefresh(true);
+      return likeCount;
+    } catch (error) {
+      console.error("Error fetching like count:", error);
+      return 0;
+    }
+  } 
   //Start of pagination
   const indexOfLastItem: number = currentPage * itemsPerPage;
   const indexOfFirstItem: number = indexOfLastItem - itemsPerPage;

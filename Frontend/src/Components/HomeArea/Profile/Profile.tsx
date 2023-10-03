@@ -9,6 +9,7 @@ import VacationModel from "../../../Models/VacationModel";
 import vacationService from "../../../Services/VacationService";
 import notifyService from "../../../Services/NotifyService";
 import "../../DataArea/List/List.css";
+import reportsService from "../../../Services/ReportsService";
 
 const Profile: React.FC = () => {
   const [loading, setLoading] = useState(true); //Boolean flag to determine loading status
@@ -28,6 +29,16 @@ const Profile: React.FC = () => {
     setLoading(false);
   }, [refresh]);
 
+  async function fetchLikes(vacationId: string): Promise<number> {
+    try {
+      const likeCount = await reportsService.getInfo(vacationId);
+      setRefresh(true);
+      return likeCount;
+    } catch (error) {
+      console.error("Error fetching like count:", error);
+      return 0;
+    }
+  }
   async function showList() {
     try {
       const dbItems = await vacationService.getFavs(favsIds);

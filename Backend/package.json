@@ -4,6 +4,7 @@
   "description": "",
   "scripts": {
     "start": "nodemon --exec ts-node src/app.ts",
+    "run_server": "ts-node src/app.ts",
     "//----unit tests----": "::: Scripts for tests :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::",
     "unit-test": "jest --config=./tests/service-tests/jest.unit.config.ts --silent=true",
     "unit-test-users-srv": "jest ./tests/service-tests/user-service.test.ts --config=./tests/service-tests/jest.unit.config.ts --silent=true",

@@ -1,14 +1,22 @@
 .List {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px; /* Adjust as needed */
+  gap: 10px; 
+}
+.sortDiv label {
+  display: inline-block;
+  margin: 5px 10px;
+  font-size: large;
+}
+.sortDiv input {
+  margin-right: 5px;
 }
 .pagination {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  text-align: center; /* Center the content horizontally */
+  text-align: center; 
 }
 .pagination button {
   background-color: #007bff;
@@ -32,7 +40,6 @@
   margin: 0 10px;
 }
 .selectList {
-  /* float: left; */
   width: fit-content;
   height: fit-content;
   padding: 8px;
