@@ -3,7 +3,9 @@ import React, { ReactNode } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthProvider";
 import "./Menu.css";
-import image from "../../../Icon/swagger-icon.png";
+import swaggerImage from "../../../images/swagger-icon.png";
+import logoutImage from "../../../images/logout.png";
+import UserModel from "../../../Models/UserModel";
 interface MenuProps {
   to?: string;
   children: ReactNode;
@@ -42,6 +44,7 @@ const MenuLink: React.FC<MenuProps> = ({
 
 function Menu(menuProps: MenuProps): JSX.Element {
   const { token, logout, isAdmin } = useAuth();
+  const userInfo = JSON.parse(localStorage.getItem("user")) as UserModel; //Getting userInfo from lclStorage
 
   return (
     <div className="menu">
@@ -63,13 +66,6 @@ function Menu(menuProps: MenuProps): JSX.Element {
         <div className="menuUser">
           {token ? (
             <>
-              <a
-                target="_blank"
-                className="menuItem"
-                href="http://localhost:4040/api-docs/#/"
-              >
-                <img src={image} alt="Swagger" title="Swagger" />
-              </a>
               {isAdmin() ? (
                 <>
                   <MenuLink className="menuUserItem " to="/vacation/create">
@@ -81,11 +77,19 @@ function Menu(menuProps: MenuProps): JSX.Element {
                 </>
               ) : null}
               <MenuLink className="menuUserItem" to="/profile">
-                Profile
+                <span className="hooman">👤 </span>
+                {userInfo.firstName}
               </MenuLink>
               <MenuLink className="menuUserItem" onClick={logout}>
                 Logout
               </MenuLink>
+              <a
+                target="_blank"
+                className="menuItem"
+                href="http://localhost:4040/api-docs/#/"
+              >
+                <img src={swaggerImage} alt="Swagger" title="Swagger" />
+              </a>
             </>
           ) : (
             <>

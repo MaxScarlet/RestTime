@@ -3,6 +3,9 @@ body,
 #root {
   height: 100%;
   text-align: center;
+  --menu-bg-color: rgba(0, 77, 75, 0.8);
+  --menu-color-active: rgb(183, 253, 251);
+  --menu-color: rgb(54, 149, 146)
 }
 
 a {
@@ -10,7 +13,6 @@ a {
 }
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
 }
 h2 {
   text-align: center;

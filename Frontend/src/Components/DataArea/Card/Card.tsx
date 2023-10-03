@@ -84,6 +84,7 @@ function Card(props: CardProps): JSX.Element {
         backgroundSize: "cover",
         backgroundPosition: "center",
         position: "relative",
+        opacity: "0.8",
       }}
     >
       {/* Semi-transparent overlay */}
@@ -95,7 +96,7 @@ function Card(props: CardProps): JSX.Element {
           width: "100%",
           height: "100%",
           zIndex: 0,
-          backgroundColor: "rgba(0, 0, 0, 0.3)",
+          backgroundColor: "rgba(0, 77, 75, 0.5)",
         }}
       ></div>
       {!isAdmin() ? (
@@ -104,7 +105,11 @@ function Card(props: CardProps): JSX.Element {
           title="Like"
           onClick={(e) => likeFnc(props.item._id, props.fav)}
         >
-          ❤ {likeCount !== null ? likeCount : "Loading..."}
+          ❤ (
+          <span className="likeSpan">
+            {likeCount !== null ? likeCount : "."}
+          </span>
+          )
         </span>
       ) : (
         <div className="adminMenu" style={{ position: "relative", zIndex: 5 }}>
@@ -124,20 +129,16 @@ function Card(props: CardProps): JSX.Element {
       )}
       <div className="textContainer">
         <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
-          Place: {props.item.place}
+          <h3>{props.item.place}</h3>
         </span>
         <br />
         <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
-          Description: {props.item.description}
+          {props.item.description}
         </span>
         <br />
         <br />
         <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
-          Start Date: {startDate}
-        </span>
-        <br />
-        <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>
-          End Date: {endDate}
+          {startDate} - {endDate}
         </span>
         <br />
         <span className="infoSpan" style={{ position: "relative", zIndex: 1 }}>

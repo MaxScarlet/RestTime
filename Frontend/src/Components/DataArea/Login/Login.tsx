@@ -8,8 +8,12 @@ import "./Login.css";
 function Login(): JSX.Element {
   const { login } = useAuth();
 
-  const [email, setEmail] = useState("maxim.kulik99@gmail.com");
-  const [password, setPassword] = useState("123123");
+  const [email, setEmail] = useState(
+    process.env.NODE_ENV === "production" ? "" : "maxim.kulik99@gmail.com"
+  );
+  const [password, setPassword] = useState(
+    process.env.NODE_ENV === "production" ? "" : "123123"
+  );
 
   const navigate = useNavigate();
 

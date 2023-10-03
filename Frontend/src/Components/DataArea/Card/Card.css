@@ -21,7 +21,7 @@
 }
 
 .infoSpan {
-  color: white;
+  color: #ffffff;
 }
 img {
   height: 100%;
@@ -31,15 +31,20 @@ a:hover {
   cursor: pointer;
 }
 .heart {
-  color: gray;
+  color: #4f4f4f;
   position: relative;
-  /* top: -158px; */
+  top: -8px;
+  left: -10px;
   float: left;
   font-size: 24px;
   cursor: pointer;
 }
+
+.likeSpan {
+  font-size: large;
+}
 .heart:hover {
-  color: white;
+  color: pink;
 }
 .Liked {
   color: red;

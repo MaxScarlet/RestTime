@@ -6,4 +6,4 @@ start cmd /k "npm run run_server"
 timeout /t 5 /nobreak  >nul
 
 cd ../Frontend
-start cmd /k "npm start"
+start cmd /k "npm start"
