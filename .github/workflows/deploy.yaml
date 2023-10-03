@@ -30,10 +30,12 @@ jobs:
         #Node modules installed
       - name: Install dependencies
         run: npm i
+        working-directory: Frontend
 
         #Static files built
       - name: Build
         run: npm run build
+        working-directory: Frontend
 
       - name: "Configure AWS credentials"
         uses: aws-actions/configure-aws-credentials@v1
