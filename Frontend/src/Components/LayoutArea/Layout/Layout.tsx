@@ -1,9 +1,7 @@
-import React from "react";
-import Header from "../Header/Header";
+import { AuthProvider } from "../AuthProvider";
 import Menu from "../Menu/Menu";
 import Routing from "../Routing/Routing";
 import "./Layout.css";
-import { AuthProvider } from "../AuthProvider";
 
 function Layout(): JSX.Element {
   return (
@@ -11,8 +9,6 @@ function Layout(): JSX.Element {
       <AuthProvider>
         <Menu to={""} children={undefined} />
         <hr />
-
-        {/* <Header /> */}
 
         <Routing />
       </AuthProvider>

@@ -1,15 +1,13 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../../LayoutArea/AuthProvider";
-import userService from "../../../Services/UserService";
 import UserModel from "../../../Models/UserModel";
-import jwt_decode from "jwt-decode";
-import { useNavigate } from "react-router-dom";
-import Card from "../../DataArea/Card/Card";
 import VacationModel from "../../../Models/VacationModel";
-import vacationService from "../../../Services/VacationService";
 import notifyService from "../../../Services/NotifyService";
-import "../../DataArea/List/List.css";
 import reportsService from "../../../Services/ReportsService";
+import vacationService from "../../../Services/VacationService";
+import Card from "../../DataArea/Card/Card";
+import "../../DataArea/List/List.css";
 
 const Profile: React.FC = () => {
   const [loading, setLoading] = useState(true); //Boolean flag to determine loading status

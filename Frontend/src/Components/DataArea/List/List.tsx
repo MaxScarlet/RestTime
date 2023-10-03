@@ -7,14 +7,13 @@ import vacationService from "../../../Services/VacationService";
 import Card from "../Card/Card";
 import "./List.css";
 import { useAuth } from "../../LayoutArea/AuthProvider";
-import reportsService from "../../../Services/ReportsService";
 
 function List(): JSX.Element {
   const [items, setList] = useState<vacationModel[]>([]); //Set item list
   const [currentPage, setCurrentPage] = useState<number>(1); //Set current page for pagination
   const [selectedSort, setSelectedSort] = useState<string>("default");
   const [refresh, setRefresh] = useState(false); //Set refresh state for the cards
-  const { token, logout, isAdmin } = useAuth();
+  const { isAdmin } = useAuth();
   const itemsPerPage: number = 9; //Set the amount of cards per page
   const userInfo = JSON.parse(localStorage.getItem("user")) as UserModel; //Getting userInfo from lclStorage
   const favsIds = userInfo.favorites; //FavsIds array

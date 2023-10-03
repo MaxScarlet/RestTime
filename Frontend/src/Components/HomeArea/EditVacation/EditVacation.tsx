@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import VacationModel from "../../../Models/VacationModel";
 import notifyService from "../../../Services/NotifyService";
 import vacationService from "../../../Services/VacationService";
@@ -43,7 +45,7 @@ function EditVacation(): JSX.Element {
     }
   }, []);
 
-  const navigate = useNavigate();
+//   const navigate = useNavigate();
 
   async function handleVacation(vacation: any) {
     try {
