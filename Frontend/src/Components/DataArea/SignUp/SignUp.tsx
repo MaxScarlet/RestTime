@@ -62,7 +62,6 @@ function SignUp(): JSX.Element {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
               required
             />
           </div>
@@ -73,7 +72,7 @@ function SignUp(): JSX.Element {
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              minLength={4} // Require a minimum length of 4 characters
+              minLength={4}
               required
             />
           </div>

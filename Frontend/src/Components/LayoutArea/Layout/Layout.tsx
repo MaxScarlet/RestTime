@@ -7,7 +7,7 @@ function Layout(): JSX.Element {
   return (
     <div className="Layout">
       <AuthProvider>
-        <Menu to={""} children={undefined} />
+        <Menu/>
         <hr />
 
         <Routing />

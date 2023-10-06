@@ -156,6 +156,8 @@ function List(): JSX.Element {
           </label>
         </div>
       )}
+      
+      {/* Vacations List */}
       <div className="List">
         {itemsOnPage.map((item) => (
           <Card
@@ -165,6 +167,8 @@ function List(): JSX.Element {
             refresh={() => refreshList(item._id)}
           />
         ))}
+
+        {/* Pagination */}
         <div className="pagination">
           <button onClick={prevPage} disabled={currentPage === 1}>
             Previous

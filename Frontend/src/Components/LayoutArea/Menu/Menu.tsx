@@ -7,7 +7,7 @@ import UserModel from "../../../Models/UserModel";
 import appConfig from "../../../Utils/AppConfig";
 interface MenuProps {
   to?: string;
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
   onClick?: () => void;
 }

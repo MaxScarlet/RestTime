@@ -45,7 +45,7 @@ function EditVacation(): JSX.Element {
     }
   }, []);
 
-//   const navigate = useNavigate();
+  const navigate = useNavigate();
 
   async function handleVacation(vacation: any) {
     try {
@@ -57,6 +57,7 @@ function EditVacation(): JSX.Element {
       } else {
         response = await vacationService.addVacation(vacation);
       }
+      navigate("/vacation");
     } catch (error) {
       notifyService.error(error);
     }

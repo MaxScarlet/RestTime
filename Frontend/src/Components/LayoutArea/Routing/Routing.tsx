@@ -38,7 +38,6 @@ function Routing(): JSX.Element {
       <Route element={<ProtectedRoute />}>
         <Route path="/vacation" element={<List />} />
         <Route path="/profile" element={<Profile />} />
-        {/* Liked vacations */}
         {isAdmin ? (
           <>
             <Route path="/vacation/:id/edit" element={<EditVacation />} />

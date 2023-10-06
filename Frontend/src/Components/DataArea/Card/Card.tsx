@@ -21,9 +21,7 @@ interface CardProps {
 function Card(props: CardProps): JSX.Element {
   const startDate = new Date(props.item.startDate).toLocaleDateString();
   const endDate = new Date(props.item.endDate).toLocaleDateString();
-  const [favorites, setFavorites] = useState<any[]>([]);
   const [likeCount, setLikeCount] = useState<number | null>(null);
-  const data = favorites.map((item) => item.count);
 
   const params = useParams();
 
