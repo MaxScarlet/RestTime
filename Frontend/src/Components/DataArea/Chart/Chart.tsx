@@ -71,6 +71,7 @@ function Chart(): JSX.Element {
             <BarChart data={data} labels={labels} />
           )}
         </div>
+        
         <button>
           <CSVLink
             data={generateCSVData()}

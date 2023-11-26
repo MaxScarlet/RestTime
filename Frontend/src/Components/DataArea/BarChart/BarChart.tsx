@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import Chart from "chart.js/auto";
-
+import "./BarChart.css"
 interface BarChartProps {
   data: string[];
   labels: string[];
@@ -38,7 +38,7 @@ const BarChart: React.FC<BarChartProps> = ({ data, labels }) => {
     }
   }, [data, labels]);
 
-  return <canvas ref={chartRef} />;
+  return <canvas ref={chartRef} className="barChart"/>;
 };
 
 export default BarChart;

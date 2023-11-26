@@ -52,3 +52,12 @@
 .menu div.active {
   color: var(--menu-color-active);
 }
+.clock {
+  display: inline-block;
+  position: absolute;
+  top: 20px;
+  right: 45%;
+  color: var(--menu-color-active);
+  width: 200px;
+  float: none;
+}

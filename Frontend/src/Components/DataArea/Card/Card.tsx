@@ -116,11 +116,11 @@ function Card(props: CardProps): JSX.Element {
           </span>
           {props.item.isDisabled ? (
             <span onClick={toggleEnableDisable} className="adminButton">
-              ❔
+              🔓
             </span>
           ) : (
             <span onClick={toggleEnableDisable} className="adminButton">
-              ❌
+              🔐
             </span>
           )}
         </div>

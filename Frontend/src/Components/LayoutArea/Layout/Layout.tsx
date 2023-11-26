@@ -8,8 +8,6 @@ function Layout(): JSX.Element {
     <div className="Layout">
       <AuthProvider>
         <Menu/>
-        <hr />
-
         <Routing />
       </AuthProvider>
     </div>

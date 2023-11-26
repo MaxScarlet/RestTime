@@ -2,15 +2,37 @@
 import { Link } from "react-router-dom";
 import appConfig from "../../../Utils/AppConfig";
 import "./Home.css";
+import { useEffect, useState } from "react";
 
 function Home(): JSX.Element {
   const dbName = appConfig.WebSiteName;
 
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [greeting, setGreeting] = useState("");
+
+  useEffect(() => {
+    const updateCurrentDate = () => {
+      setCurrentDate(new Date());
+    };
+    const updateGreeting = () => {
+      if (currentDate.getHours() < 12) {
+        setGreeting("Good morning");
+      } else if (currentDate.getHours() < 18) {
+        setGreeting("Good afternoon");
+      } else {
+        setGreeting("Good evening");
+      }
+    };
+    setInterval(() => {
+      updateCurrentDate();
+      updateGreeting();
+    });
+  }, [currentDate]);
+
   return (
     <div className="Home">
       <main>
-        {/* Hero section with a call-to-action */}
-        <h1>Welcome to {dbName}</h1>
+        <h1>{`${greeting}, welcome to ${dbName}`}</h1>
         <p>Your adventure begins here.</p>
         <Link to="/vacation" className="cta-button">
           Explore Tours

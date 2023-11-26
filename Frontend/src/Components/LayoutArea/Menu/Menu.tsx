@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-target-blank */
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthProvider";
 import "./Menu.css";
@@ -45,6 +45,26 @@ function Menu(menuProps: MenuProps): JSX.Element {
   const { token, logout, isAdmin } = useAuth();
   const userInfo = JSON.parse(localStorage.getItem("user")) as UserModel; //Getting userInfo from lclStorage
 
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    const updateCurrentDate = () => {
+      setCurrentDate(new Date());
+    };
+    setInterval(() => {
+      updateCurrentDate();
+    });
+  }, [currentDate]);
+
+  const userLocale = window.navigator.language;
+  const formattedTime = currentDate.toLocaleString(userLocale, {
+    weekday: "long",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
+    hour12: false,
+  });
+
   return (
     <div className="menu">
       <div className="menuItems">
@@ -62,6 +82,7 @@ function Menu(menuProps: MenuProps): JSX.Element {
           About
         </MenuLink>
 
+        <div className="clock">{formattedTime}</div>
         <div className="menuUser">
           {token ? (
             <>
