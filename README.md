@@ -20,7 +20,7 @@ RestTime is the final project for John Bryce Full Stack Web Development course a
 
 ## License
 
-RestTime is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+RestTime is licensed under the MIT License.
 
 ## Contact
 
