@@ -9,7 +9,6 @@ export default FavoriteModel;
 
 export interface FavoriteDoc extends FavoriteModel, Document {}
 
-// Define the Favorite schema
 export const FavoriteSchema: Schema = new Schema({
   userId: {
     type: String,
