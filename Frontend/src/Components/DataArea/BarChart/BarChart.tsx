@@ -16,7 +16,7 @@ const BarChart: React.FC<BarChartProps> = ({ data, labels }) => {
 
       if (ctx) {
         if (chartInstance.current) {
-          chartInstance.current.destroy(); // Destroy the previous chart instance if it exists
+          chartInstance.current.destroy();
         }
 
         chartInstance.current = new Chart(ctx, {
@@ -26,7 +26,7 @@ const BarChart: React.FC<BarChartProps> = ({ data, labels }) => {
             datasets: [
               {
                 label: "Bar Chart Example",
-                data: data.map((item) => parseFloat(item)), // Convert string data to numbers
+                data: data.map((item) => parseFloat(item)), 
                 backgroundColor: "rgba(75, 192, 192, 0.2)",
                 borderColor: "rgba(75, 192, 192, 1)",
                 borderWidth: 1,

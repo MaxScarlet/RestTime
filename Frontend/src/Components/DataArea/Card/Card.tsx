@@ -36,7 +36,7 @@ function Card(props: CardProps): JSX.Element {
         setLikeCount(likeCount);
       } catch (error) {
         console.error("Error fetching like count:", error);
-        setLikeCount(0); // Set a default value in case of an error
+        setLikeCount(0); 
       }
     }
 

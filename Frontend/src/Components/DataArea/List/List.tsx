@@ -33,7 +33,6 @@ function List(): JSX.Element {
         userInfo.isAdmin
       );
 
-      // Sort the items based on the selectedSort
       dbItems = dbItems.sort(sortItems);
 
       setList(dbItems);
@@ -74,7 +73,6 @@ function List(): JSX.Element {
   }
   //End favorite handle
 
-  // Sorting function
   const sortItems = (a: vacationModel, b: vacationModel): number => {
     switch (selectedSort) {
       case "favorites":

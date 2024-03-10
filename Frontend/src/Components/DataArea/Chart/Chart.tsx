@@ -27,7 +27,7 @@ function Chart(): JSX.Element {
         ids.map((id) => vacationService.getInfo(id))
       );
       setFavName(favNames);
-      setRefresh(false); // Set refresh to false after successfully fetching data
+      setRefresh(false); 
     } catch (error) {
       console.error("Error fetching favorite names:", error);
     }
@@ -47,10 +47,8 @@ function Chart(): JSX.Element {
   function generateCSVData() {
     const csvData = [];
 
-    // Push headers
     csvData.push(["Name", "Followers Count"]);
 
-    // Push data
     for (let i = 0; i < favName.length; i++) {
       csvData.push([favName[i].place, data[i]]);
     }
